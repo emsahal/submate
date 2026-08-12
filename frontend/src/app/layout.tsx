@@ -143,6 +143,8 @@ const websiteJsonLd = {
   },
 };
 
+import { CookieConsent } from "@/components/cookie-consent";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${fontHeading.variable} ${fontBody.variable} h-full antialiased`}>
@@ -159,6 +161,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteFooter />
           <Toaster richColors position="top-center" />
           <ChatWidget />
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>
