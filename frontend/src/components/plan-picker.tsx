@@ -97,38 +97,40 @@ export function PlanPicker({ productId, slug, plans }: { productId: number; slug
         })}
       </div>
 
-      {/* Screens selector */}
-      <div className="space-y-2">
-        <p className="flex items-center gap-1.5 text-sm font-medium">
-          <Monitor className="h-4 w-4 text-primary" />
-          Number of screens
-        </p>
-        <div className="grid grid-cols-5 gap-2">
-          {SCREEN_OPTIONS.map((n) => (
-            <button
-              key={n}
-              type="button"
-              onClick={() => setScreens(n)}
-              className={cn(
-                "flex flex-col items-center gap-0.5 rounded-lg border py-2.5 text-sm font-semibold transition-colors",
-                screens === n
-                  ? "border-primary bg-primary/5 text-primary ring-1 ring-primary"
-                  : "border-border text-foreground hover:border-primary/40",
-              )}
-              aria-pressed={screens === n}
-            >
-              <span className="text-base">{n}</span>
-              <span className="text-[10px] font-normal text-muted-foreground">{n === 1 ? "screen" : "screens"}</span>
-            </button>
-          ))}
-        </div>
-        {screens > 1 && selectedPlan ? (
-          <p className="text-xs text-muted-foreground">
-            {screens} × {formatPKR(selectedPlan.priceLocal)} ={" "}
-            <span className="font-semibold text-foreground">{formatPKR(totalPrice)}</span> total
+      {/* Screens selector — Netflix only */}
+      {slug === "netflix" ? (
+        <div className="space-y-2">
+          <p className="flex items-center gap-1.5 text-sm font-medium">
+            <Monitor className="h-4 w-4 text-primary" />
+            Number of screens
           </p>
-        ) : null}
-      </div>
+          <div className="grid grid-cols-5 gap-2">
+            {SCREEN_OPTIONS.map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setScreens(n)}
+                className={cn(
+                  "flex flex-col items-center gap-0.5 rounded-lg border py-2.5 text-sm font-semibold transition-colors",
+                  screens === n
+                    ? "border-primary bg-primary/5 text-primary ring-1 ring-primary"
+                    : "border-border text-foreground hover:border-primary/40",
+                )}
+                aria-pressed={screens === n}
+              >
+                <span className="text-base">{n}</span>
+                <span className="text-[10px] font-normal text-muted-foreground">{n === 1 ? "screen" : "screens"}</span>
+              </button>
+            ))}
+          </div>
+          {screens > 1 && selectedPlan ? (
+            <p className="text-xs text-muted-foreground">
+              {screens} × {formatPKR(selectedPlan.priceLocal)} ={" "}
+              <span className="font-semibold text-foreground">{formatPKR(totalPrice)}</span> total
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       <Button onClick={handleBuy} disabled={submitting || !selectedId} size="lg" className="w-full">
         {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingCart className="h-4 w-4" />}
