@@ -16,7 +16,7 @@ function escapeHtml(value: unknown): string {
 
 function renderHtml(opts: { storeName: string; title: string; body: string; link?: string }): string {
   const button = opts.link
-    ? `<a href="${escapeHtml(opts.link)}" style="display:inline-block;background:#7c3aed;color:#ffffff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;">View details</a>`
+    ? `<a href="${escapeHtml(opts.link)}" style="display:inline-block;background:#0f6e58;color:#ffffff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:600;">View details</a>`
     : "";
   return `<!doctype html><html><body style="margin:0;padding:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f4f4f5;">
   <div style="max-width:560px;margin:24px auto;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
@@ -53,7 +53,7 @@ export async function sendEmail(input: SendEmailInput): Promise<boolean> {
   const settings = await getSettings().catch(() => null);
   storeName = settings?.storeName || storeName;
   if (!from) {
-    from = settings?.supportEmail || "SubMate <onboarding@resend.dev>";
+    from = "SubMate <noreply@submate.tech>";
   }
 
   try {
