@@ -499,31 +499,43 @@ body {
 
 /* Prose styling for blog/policy content */
 .prose-subly {
-  @apply text-foreground/85 leading-relaxed;
+  @apply text-foreground/90 leading-relaxed text-[16px] sm:text-[17px];
+}
+.prose-subly h1 {
+  @apply mt-8 mb-4 font-heading text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground;
 }
 .prose-subly h2 {
-  @apply mt-10 mb-3 text-2xl font-semibold tracking-tight text-foreground;
+  @apply mt-10 mb-4 font-heading text-xl sm:text-2xl font-bold tracking-tight text-foreground border-b border-border/40 pb-2;
 }
 .prose-subly h3 {
-  @apply mt-8 mb-2 text-xl font-semibold tracking-tight text-foreground;
+  @apply mt-8 mb-3 font-heading text-lg sm:text-xl font-bold tracking-tight text-foreground;
 }
 .prose-subly p {
-  @apply my-4;
+  @apply my-5 leading-[1.75];
 }
 .prose-subly ul {
-  @apply my-4 list-disc pl-6 space-y-1.5;
+  @apply my-5 list-disc pl-6 space-y-2;
 }
 .prose-subly ol {
-  @apply my-4 list-decimal pl-6 space-y-1.5;
+  @apply my-5 list-decimal pl-6 space-y-2;
+}
+.prose-subly li {
+  @apply pl-1;
 }
 .prose-subly a {
-  @apply text-primary underline underline-offset-4;
+  @apply text-primary underline underline-offset-4 font-medium transition-colors hover:text-primary/80;
 }
 .prose-subly blockquote {
-  @apply border-l-4 border-primary/40 pl-4 italic text-muted-foreground;
+  @apply my-6 border-l-4 border-primary pl-5 italic text-muted-foreground bg-muted/30 py-1 pr-4 rounded-r-lg;
 }
 .prose-subly img {
-  @apply my-6 rounded-lg border;
+  @apply my-8 rounded-xl border border-border shadow-sm max-w-full h-auto;
+}
+.prose-subly code {
+  @apply rounded bg-muted px-1.5 py-0.5 font-mono text-sm text-foreground;
+}
+.prose-subly pre {
+  @apply my-6 overflow-x-auto rounded-xl bg-muted p-4 font-mono text-sm text-foreground;
 }
 
 /* ── Mobile Responsive Overrides ───────────────────────────── */
