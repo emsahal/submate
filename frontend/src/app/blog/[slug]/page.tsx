@@ -4,6 +4,7 @@ import { fetchBlogPost } from "@/lib/site-data";
 import { formatDate } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { BlurHeading } from "@/components/section-heading";
+import { marked } from "marked";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -31,6 +32,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  // Parse markdown content dynamically
+  const htmlContent = marked.parse(post.content || "");
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-16 sm:py-20">
       <div className="mb-8 space-y-4">
@@ -48,7 +52,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <p className="text-sm text-muted-foreground">{formatDate(post.publishedAt)}</p>
         ) : null}
       </div>
-      <article className="prose-subly" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <article className="prose-subly" dangerouslySetInnerHTML={{ __html: htmlContent }} />
     </div>
   );
 }

@@ -49,6 +49,7 @@
     "@types/three": "^0.185.4",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "marked": "^18.0.9",
     "shadcn": "^4.16.2",
     "tailwindcss": "^4",
     "typescript": "^5"
