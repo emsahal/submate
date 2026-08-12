@@ -258,7 +258,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ── 1 · Hero ─────────────────────────────────────────── */}
-      <section className="relative flex min-h-[80vh] items-center overflow-hidden border-b border-border bg-background pt-16">
+      <section className="relative flex min-h-[65vh] items-center overflow-hidden border-b border-border bg-background pt-4">
         {/* PixelBlast background */}
         <div className="pointer-events-none absolute inset-0 z-0 opacity-70">
           <PixelBlast
@@ -276,7 +276,7 @@ export default async function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto w-full max-w-4xl px-6 pb-12 pt-16 text-center sm:pb-16 lg:pb-20 lg:pt-20">
+        <div className="relative z-10 mx-auto w-full max-w-4xl px-6 pb-12 pt-6 text-center sm:pb-16 lg:pb-20 lg:pt-10">
           <Reveal delay={0} immediate>
             <div className="flex justify-center">
               <Eyebrow>Human-verified local payments</Eyebrow>
