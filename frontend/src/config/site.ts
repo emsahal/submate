@@ -6,7 +6,7 @@ export const siteConfig = {
     "SubMate helps people in Pakistan discover eligible digital subscription plans, compare options, and manage their subscriptions easily.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   locale: "en_PK",
-  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "sarcasticsahal@gmail.com",
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@submate.tech",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP ?? "923149466389",
   whatsappDisplay: "+92 314 9466389",
   currency: "PKR",
