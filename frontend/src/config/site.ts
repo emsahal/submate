@@ -3,7 +3,7 @@ export const siteConfig = {
   legalName: "SubMate Marketplace",
   tagline: "Digital subscriptions, simplified for Pakistan",
   description:
-    "SubMate helps people in Pakistan discover eligible digital subscription plans, compare options, and manage their subscriptions easily.",
+    "SubMate is Pakistan's trusted digital subscription marketplace. Buy Netflix, Spotify, Canva Pro, ChatGPT and more — pay with JazzCash, Easypaisa or bank transfer in PKR. Every payment is human-verified before access is delivered to your dashboard.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   locale: "en_PK",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@submate.tech",

@@ -1,0 +1,26 @@
+{
+  "name": "SubMate",
+  "short_name": "SubMate",
+  "description": "Pakistan's trusted digital subscription marketplace. Buy Netflix, Spotify, Canva Pro and more — pay with JazzCash or Easypaisa in PKR.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f0d",
+  "theme_color": "#0f6e58",
+  "orientation": "portrait",
+  "lang": "en-PK",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.jpg",
+      "sizes": "180x180",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["shopping", "finance"],
+  "screenshots": []
+}
