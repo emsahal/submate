@@ -435,7 +435,7 @@ export default async function HomePage() {
               return (
                 <Reveal key={m.id ?? m.name} delay={i * 100}>
                   <div
-                    className={`fill-card card-bubble card-lift group flex items-center gap-5 rounded-2xl border bg-card p-6 ${
+                    className={`payment-method-card fill-card card-bubble card-lift group flex items-center gap-5 rounded-2xl border bg-card p-6 ${
                       i === 0 ? "border-primary/30 shadow-[0_0_0_1px_var(--primary)]" : "border-border"
                     }`}
                   >
@@ -461,7 +461,11 @@ export default async function HomePage() {
         <Reveal delay={200}>
           <div className="mt-20 border-y border-border py-12">
             <div className="mx-auto mb-9 max-w-2xl text-center">
-              <BlurHeading text="Trusted local payment methods" className="display-lg" align="center" />
+              <BlurHeading
+                text="Trusted local payment methods"
+                className="display-xl mt-5"
+                align="center"
+              />
             </div>
             <LogoLoop
               logos={methodLogos}

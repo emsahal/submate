@@ -614,3 +614,16 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Payment method cards responsiveness */
+@media (max-width: 639px) {
+  .payment-method-card {
+    padding: 1rem !important;
+    gap: 0.75rem !important;
+  }
+  .payment-method-card .flex {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+}
+
