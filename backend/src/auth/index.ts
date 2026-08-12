@@ -17,7 +17,15 @@ export const auth = betterAuth({
   appName: "Subly",
   secret: config.authSecret,
   baseURL: config.backendUrl,
-  trustedOrigins: [config.frontendUrl],
+  trustedOrigins: Array.from(
+    new Set([
+      "http://localhost:3000",
+      "https://submate.tech",
+      "https://www.submate.tech",
+      "https://submate-frontend.vercel.app",
+      config.frontendUrl,
+    ]),
+  ).filter(Boolean),
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
@@ -74,7 +82,7 @@ export const auth = betterAuth({
   advanced: {
     defaultCookieAttributes: {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: config.isProd ? "none" : "lax",
       secure: config.isProd,
     },
   },
