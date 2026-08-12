@@ -2,10 +2,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Keep the vertical scrollbar always present so content width doesn't
-   shift when a section loads and the page grows taller. */
 html {
-  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+body {
+  overflow-x: hidden;
 }
 
 /* ─────────────────────────────────────────────────────────────
