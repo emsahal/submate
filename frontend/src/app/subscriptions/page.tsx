@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Search } from "lucide-react";
-import type { PublicCategory, PublicProduct } from "@shared/types";
+import type { PublicCategory, PublicProduct } from "@/types/shared";
 import { fetchCategories, fetchProducts } from "@/lib/site-data";
 import { formatError } from "@/lib/utils";
 import { Input } from "@/components/ui/input";

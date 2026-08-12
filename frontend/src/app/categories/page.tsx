@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import type { PublicCategory } from "@shared/types";
+import type { PublicCategory } from "@/types/shared";
 import { fetchCategories } from "@/lib/site-data";
 import { EmptyState } from "@/components/empty-state";
 import { Eyebrow, BlurHeading } from "@/components/section-heading";

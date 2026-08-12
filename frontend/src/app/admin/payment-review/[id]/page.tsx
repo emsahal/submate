@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, Check, Loader2, RefreshCw, Undo2 } from "lucide-react";
-import type { PaymentDetail, AIVerificationResult } from "@shared/types";
+import type { PaymentDetail, AIVerificationResult } from "@/types/shared";
 import { get, post } from "@/lib/api";
 import { formatPKR, formatDateTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

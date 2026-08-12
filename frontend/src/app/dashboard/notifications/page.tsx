@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { CheckCheck, Bell, BellOff } from "lucide-react";
-import type { NotificationItem } from "@shared/types";
+import type { NotificationItem } from "@/types/shared";
 import { get, post } from "@/lib/api";
 import { relativeTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

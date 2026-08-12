@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
-import type { PublicReview } from "@shared/types";
+import type { PublicReview } from "@/types/shared";
 import { formatDate } from "@/lib/format";
 import { formatError } from "@/lib/utils";
 import { useSession } from "@/lib/auth-client";

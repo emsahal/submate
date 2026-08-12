@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { api } from "@/lib/api";
-import type { PublicCategory, PublicProduct } from "@shared/types";
+import type { PublicCategory, PublicProduct } from "@/types/shared";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow, BlurHeading } from "@/components/section-heading";
 import { Reveal } from "@/components/reveal";

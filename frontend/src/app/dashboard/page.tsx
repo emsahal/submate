@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { AlertTriangle, ArrowRight, BadgeCheck, Bell, CheckCircle2, Package, ScrollText } from "lucide-react";
-import type { CustomerOverview, OrderDetail, SubscriptionDetail } from "@shared/types";
+import type { CustomerOverview, OrderDetail, SubscriptionDetail } from "@/types/shared";
 import { get } from "@/lib/api";
 import { formatPKR, relativeTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

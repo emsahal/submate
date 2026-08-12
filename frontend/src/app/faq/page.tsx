@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { PublicFaq } from "@shared/types";
+import type { PublicFaq } from "@/types/shared";
 import { fetchFaqs } from "@/lib/site-data";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { EmptyState } from "@/components/empty-state";

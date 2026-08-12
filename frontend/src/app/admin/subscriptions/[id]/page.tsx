@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, KeyRound, Loader2, Play, Pause, RefreshCw, XCircle } from "lucide-react";
-import type { SubscriptionDetail } from "@shared/types";
+import type { SubscriptionDetail } from "@/types/shared";
 import { get, post } from "@/lib/api";
 import { formatPKR, formatDate } from "@/lib/format";
 import { formatError } from "@/lib/utils";

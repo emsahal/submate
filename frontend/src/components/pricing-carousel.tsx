@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, CircleCheck } from "lucide-react";
-import type { PublicProduct } from "@shared/types";
+import type { PublicProduct } from "@/types/shared";
 import { cn } from "@/lib/utils";
 import { formatPKR } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";

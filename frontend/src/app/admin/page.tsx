@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Activity, Banknote, ListChecks, MessageSquare, Package, ScrollText, TrendingUp, Users } from "lucide-react";
-import type { AdminDashboardStats } from "@shared/types";
+import type { AdminDashboardStats } from "@/types/shared";
 import { get } from "@/lib/api";
 import { formatPKR, formatNumber } from "@/lib/format";
 import { formatError } from "@/lib/utils";

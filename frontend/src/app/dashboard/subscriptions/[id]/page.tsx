@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, BadgeCheck, Check, Copy, KeyRound, Loader2, Lock } from "lucide-react";
-import type { SubscriptionDetail } from "@shared/types";
+import type { SubscriptionDetail } from "@/types/shared";
 import { get, post } from "@/lib/api";
 import { formatError } from "@/lib/utils";
 import { formatDateTime } from "@/lib/format";

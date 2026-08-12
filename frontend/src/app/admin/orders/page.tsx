@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Package } from "lucide-react";
-import type { OrderStatus } from "@shared/types";
+import type { OrderStatus } from "@/types/shared";
 import { get } from "@/lib/api";
 import { formatPKR, formatDateTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

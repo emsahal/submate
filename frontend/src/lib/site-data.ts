@@ -8,7 +8,7 @@ import type {
   PublicFaq,
   PublicPaymentMethod,
   Paginated,
-} from "@shared/types";
+} from "@/types/shared";
 
 export type ProductFilters = {
   search?: string;

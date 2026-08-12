@@ -3,7 +3,7 @@
 import * as React from "react";
 import { toast } from "sonner";
 import { Loader2, UploadCloud } from "lucide-react";
-import type { OrderDetail, PublicPaymentMethod } from "@shared/types";
+import type { OrderDetail, PublicPaymentMethod } from "@/types/shared";
 import { apiUrl } from "@/lib/api";
 import { formatError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

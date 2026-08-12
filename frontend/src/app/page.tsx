@@ -32,7 +32,7 @@ import {
   Tv,
 } from "lucide-react";
 import { api } from "@/lib/api";
-import type { PublicCategory, PublicPaymentMethod, PublicProduct } from "@shared/types";
+import type { PublicCategory, PublicPaymentMethod, PublicProduct } from "@/types/shared";
 import { siteConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

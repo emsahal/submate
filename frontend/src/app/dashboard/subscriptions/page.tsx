@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { BadgeCheck, ScrollText } from "lucide-react";
-import type { SubscriptionDetail } from "@shared/types";
+import type { SubscriptionDetail } from "@/types/shared";
 import { get } from "@/lib/api";
 import { formatError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

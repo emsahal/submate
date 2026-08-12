@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { ListChecks } from "lucide-react";
-import type { PaymentDetail } from "@shared/types";
+import type { PaymentDetail } from "@/types/shared";
 import { get } from "@/lib/api";
 import { formatPKR, relativeTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

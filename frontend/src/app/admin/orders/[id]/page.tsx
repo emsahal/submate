@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, BadgeCheck, Loader2 } from "lucide-react";
-import type { OrderDetail } from "@shared/types";
+import type { OrderDetail } from "@/types/shared";
 import { get, post } from "@/lib/api";
 import { formatPKR, formatDateTime } from "@/lib/format";
 import { formatError } from "@/lib/utils";

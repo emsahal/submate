@@ -3,7 +3,7 @@
 import * as React from "react";
 import { toast } from "sonner";
 import { Loader2, Save } from "lucide-react";
-import type { MeProfile } from "@shared/types";
+import type { MeProfile } from "@/types/shared";
 import { get, patch } from "@/lib/api";
 import { formatDate } from "@/lib/format";
 import { formatError } from "@/lib/utils";

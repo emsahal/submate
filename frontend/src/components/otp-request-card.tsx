@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Check, Clock, Copy, KeyRound, Loader2, MessageCircle } from "lucide-react";
-import type { SubscriptionOtpStatus } from "@shared/types";
+import type { SubscriptionOtpStatus } from "@/types/shared";
 import { post } from "@/lib/api";
 import { formatError } from "@/lib/utils";
 import { siteConfig } from "@/config/site";

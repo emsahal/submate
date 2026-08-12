@@ -4,7 +4,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Check, Loader2, Monitor, ShoppingCart } from "lucide-react";
-import type { PublicPlan } from "@shared/types";
+import type { PublicPlan } from "@/types/shared";
 import { formatPKR } from "@/lib/format";
 import { formatError } from "@/lib/utils";
 import { useSession, signInWithGoogle } from "@/lib/auth-client";

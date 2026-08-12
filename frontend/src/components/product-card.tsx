@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Star } from "lucide-react";
-import type { PublicProduct } from "@shared/types";
+import type { PublicProduct } from "@/types/shared";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BrandLogo } from "@/components/brand-logo";
