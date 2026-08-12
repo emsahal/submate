@@ -461,11 +461,21 @@ export default async function HomePage() {
         <Reveal delay={200}>
           <div className="mt-20 border-y border-border py-12">
             <div className="mx-auto mb-9 max-w-2xl text-center">
+              <Reveal>
+                <div className="flex justify-center">
+                  <Eyebrow>Supported Wallets</Eyebrow>
+                </div>
+              </Reveal>
               <BlurHeading
                 text="Trusted local payment methods"
                 className="display-xl mt-5"
                 align="center"
               />
+              <Reveal delay={150}>
+                <p className="lead mx-auto mt-4 max-w-xl text-muted-foreground">
+                  Send payments securely via JazzCash, Easypaisa, NayaPay or direct bank transfer.
+                </p>
+              </Reveal>
             </div>
             <LogoLoop
               logos={methodLogos}
