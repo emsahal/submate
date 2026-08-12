@@ -304,7 +304,7 @@ export default async function HomePage() {
           <Reveal delay={350} immediate>
             <form
               action="/subscriptions"
-              className="card-shadow mx-auto mt-9 flex max-w-xl items-center gap-2 rounded-xl border border-border bg-card p-1.5 pl-4"
+              className="hero-search-form card-shadow mx-auto mt-9 flex max-w-xl items-center gap-2 rounded-xl border border-border bg-card p-1.5 pl-4"
             >
               <Search className="h-5 w-5 shrink-0 text-muted-foreground" />
               <input

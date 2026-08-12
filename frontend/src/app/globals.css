@@ -388,7 +388,7 @@ html {
 }
 
 .section-pad {
-  @apply py-20 sm:py-28;
+  @apply py-12 sm:py-20 lg:py-28;
 }
 
 /* ── LogoLoop marquee ──────────────────────────────────────── */
@@ -523,4 +523,93 @@ html {
 }
 .prose-subly img {
   @apply my-6 rounded-lg border;
+}
+
+/* ── Mobile Responsive Overrides ───────────────────────────── */
+
+/* Tighter horizontal padding on small screens */
+@media (max-width: 639px) {
+  .display-hero {
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.08;
+  }
+  .display-2xl {
+    font-size: clamp(1.8rem, 7vw, 2.5rem);
+  }
+  .display-xl {
+    font-size: clamp(1.6rem, 6.5vw, 2.2rem);
+  }
+  .display-lg {
+    font-size: clamp(1.4rem, 5.5vw, 1.9rem);
+  }
+  .stat-number {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+  .lead-lg {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Hero search bar: stack vertically on mobile */
+@media (max-width: 500px) {
+  .hero-search-form {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 1rem;
+  }
+  .hero-search-form input {
+    height: 2.75rem;
+    font-size: 0.9375rem;
+  }
+  .hero-search-form button {
+    width: 100%;
+    border-radius: 0.625rem;
+  }
+}
+
+/* Dashboard / Admin mobile tabs: hide scrollbar on mobile */
+.mobile-tabs-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.mobile-tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure images don't overflow on mobile */
+@media (max-width: 639px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Full-width cards on mobile */
+  .card {
+    border-radius: 0.75rem;
+  }
+
+  /* Prevent table overflow */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Footer: 2 column grid on mobile */
+@media (max-width: 767px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Product/subscription cards: single column on very small screens */
+@media (max-width: 400px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
 }

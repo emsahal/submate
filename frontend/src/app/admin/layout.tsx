@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </aside>
 
         <main className="min-w-0">
-          <nav className="mb-6 flex gap-1 overflow-x-auto pb-1 lg:hidden">
+          <nav className="mobile-tabs-scroll mb-6 flex gap-1 overflow-x-auto pb-1 lg:hidden">
             {navItems.map((item) => {
               const active = item.href === "/admin" ? pathname === "/admin" : pathname?.startsWith(item.href);
               return (

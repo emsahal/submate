@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="mb-6 flex items-center gap-3 lg:hidden">
             <Logo />
           </div>
-          <nav className="mb-6 flex gap-1 overflow-x-auto pb-1 lg:hidden">
+          <nav className="mobile-tabs-scroll mb-6 flex gap-1 overflow-x-auto pb-1 lg:hidden">
             {navItems.map((item) => {
               const active = item.href === "/dashboard" ? pathname === "/dashboard" : pathname?.startsWith(item.href);
               return (
