@@ -1,9 +1,9 @@
 export const siteConfig = {
-  name: "Subly",
-  legalName: "Subly Marketplace",
+  name: "SubMate",
+  legalName: "SubMate Marketplace",
   tagline: "Digital subscriptions, simplified for Pakistan",
   description:
-    "Subly helps people in Pakistan discover eligible digital subscription plans, compare options, and manage their subscriptions easily.",
+    "SubMate helps people in Pakistan discover eligible digital subscription plans, compare options, and manage their subscriptions easily.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   locale: "en_PK",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "sarcasticsahal@gmail.com",

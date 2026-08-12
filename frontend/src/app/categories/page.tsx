@@ -9,7 +9,7 @@ import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Categories",
-  description: "Browse digital subscriptions by category on Subly.",
+  description: "Browse digital subscriptions by category on SubMate.",
 };
 
 export default async function CategoriesPage() {

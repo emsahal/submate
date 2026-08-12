@@ -9,7 +9,7 @@ import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with the Subly team.",
+  description: "Get in touch with the SubMate team.",
 };
 
 export default function ContactPage() {

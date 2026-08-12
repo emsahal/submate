@@ -1,5 +1,5 @@
 /**
- * Curated Q&A knowledge base that grounds the Subly assistant's answers.
+ * Curated Q&A knowledge base that grounds the SubMate assistant's answers.
  * The AI matches the user's message to the closest entry here and replies
  * using its answer — anything outside this is handed off to WhatsApp/email.
  */
@@ -13,8 +13,8 @@ export interface KnowledgeQa {
 
 export const FAQ_KNOWLEDGE: KnowledgeQa[] = [
   /* ------------------------------- Greetings ------------------------------- */
-  { q: "hi hello salam assalam o alaikum good morning good evening hey", a: "Hello! 👋 Welcome to Subly. I'm the Subly assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human." },
-  { q: "who are you what is subly what do you sell about subly", a: "Subly is a Pakistani marketplace for digital subscriptions — Netflix, Spotify, YouTube Premium, Canva, ChatGPT Plus, Adobe and more. You pay in PKR and get access delivered to your account. Need a human? WhatsApp +92 314 9466389." },
+  { q: "hi hello salam assalam o alaikum good morning good evening hey", a: "Hello! 👋 Welcome to SubMate. I'm the SubMate assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human." },
+  { q: "who are you what is subly what do you sell about subly", a: "SubMate is a Pakistani marketplace for digital subscriptions — Netflix, Spotify, YouTube Premium, Canva, ChatGPT Plus, Adobe and more. You pay in PKR and get access delivered to your account. Need a human? WhatsApp +92 314 9466389." },
   { q: "what can you help with what do you do", a: "I can help with: finding subscriptions, how payment and verification work, order status, subscription activation, renewals, refunds and general questions. For anything else, message us on WhatsApp at +92 314 9466389." },
 
   /* --------------------------------- Payment ------------------------------- */
@@ -41,7 +41,7 @@ export const FAQ_KNOWLEDGE: KnowledgeQa[] = [
 
   /* -------------------------------- Privacy ------------------------------- */
   { q: "privacy is my data safe my information privacy policy", a: "Your data is kept private. Payment screenshots are only visible to the admin team for verification, and access details are encrypted and shown only to you on your subscription page." },
-  { q: "is this legal legitimate is subly safe can i trust you", a: "Subly only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
+  { q: "is this legal legitimate is subly safe can i trust you", a: "SubMate only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
 
   /* ------------------------------- Contact -------------------------------- */
   { q: "how do i contact support contact human agent customer service", a: "For real-person help, message us on WhatsApp at +92 314 9466389 — quickest response. You can also email sarcasticsahal@gmail.com. Include your order number for fast help." },

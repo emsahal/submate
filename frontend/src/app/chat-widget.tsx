@@ -7,8 +7,8 @@ export interface FaqQa {
 
 export const FAQ_KNOWLEDGE: FaqQa[] = [
   /* ------------------------------- Greetings ------------------------------- */
-  { q: "hi|hello|salam|hey|good morning|good afternoon", a: "Hello! 👋 Welcome to Subly. I'm the Subly assistant. How can I help you today?" },
-  { q: "who are you|what is subly|about subly", a: "Subly is a Pakistani marketplace for digital subscriptions — Netflix, Spotify, YouTube Premium, Canva, ChatGPT Plus, Adobe and more. You pay in PKR and get access delivered to your account." },
+  { q: "hi|hello|salam|hey|good morning|good afternoon", a: "Hello! 👋 Welcome to SubMate. I'm the SubMate assistant. How can I help you today?" },
+  { q: "who are you|what is subly|about subly", a: "SubMate is a Pakistani marketplace for digital subscriptions — Netflix, Spotify, YouTube Premium, Canva, ChatGPT Plus, Adobe and more. You pay in PKR and get access delivered to your account." },
 
   /* ------------------------------- Payment ------------------------------- */
   { q: "how do i pay|payment methods|payment options", a: "After placing an order you'll see our payment methods: JazzCash, Easypaisa, NayaPay and bank transfer. Transfer the order amount in PKR and upload a screenshot of the payment from your order page. No card or international payment needed." },
@@ -34,7 +34,7 @@ export const FAQ_KNOWLEDGE: FaqQa[] = [
 
   /* ------------------------------- Privacy ------------------------------- */
   { q: "privacy|is my data safe|information privacy policy", a: "Your data is kept private. Payment screenshots are only visible to the admin team for verification, and access details are encrypted and shown only to you on your subscription page." },
-  { q: "is this legal legitimate|is subly safe|can i trust you", a: "Subly only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
+  { q: "is this legal legitimate|is subly safe|can i trust you", a: "SubMate only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
 
   /* ------------------------------- Contact -------------------------------- */
   { q: "how do i contact support|contact human agent|customer service", a: "For real-person help, message us on WhatsApp at +92 314 9466389 — quickest response. You can also email sarcasticsahal@gmail.com. Include your order number for fast help." },
@@ -56,7 +56,7 @@ function findAnswer(query: string): string | null {
   
   // Greeting shortcuts
   if (/^\s*(hi|hello|salam|hey|good morning|good afternoon)\s*$/.test(normalized)) {
-    return "Hello! 👋 Welcome to Subly. I'm the Subly assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human.";
+    return "Hello! 👋 Welcome to SubMate. I'm the SubMate assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human.";
   }
 
   // Score each FAQ entry by keyword overlap

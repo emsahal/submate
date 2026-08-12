@@ -23,7 +23,7 @@ interface NvidiaChatCompletion {
  * output, and reserves suspicion explicitly.
  */
 function buildPrompt(input: AnalyzeInput): string {
-  return `You are a financial document verification assistant for a subscription marketplace called Subly operating in Pakistan.
+  return `You are a financial document verification assistant for a subscription marketplace called SubMate operating in Pakistan.
 
 A customer submitted a payment screenshot for order ${input.orderNumber}.
 Expected payment details:

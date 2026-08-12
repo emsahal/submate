@@ -8,7 +8,7 @@ import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Frequently asked questions about Subly payments, delivery and subscriptions.",
+  description: "Frequently asked questions about SubMate payments, delivery and subscriptions.",
 };
 
 export default async function FaqPage() {

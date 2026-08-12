@@ -30,7 +30,7 @@ export default function TermsPage() {
             You may only purchase a plan if you are legally eligible and the provider allows it for your region and
             usage. This is your responsibility.
           </li>
-          <li>You must not use Subly to bypass geographic restrictions, DRM, or account-sharing rules.</li>
+          <li>You must not use SubMate to bypass geographic restrictions, DRM, or account-sharing rules.</li>
           <li>You must not resell, share, or sublicense the access you receive.</li>
         </ul>
         <h2>3. Orders and payment</h2>

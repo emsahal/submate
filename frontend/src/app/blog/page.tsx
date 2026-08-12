@@ -10,7 +10,7 @@ import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Guides and updates from Subly about digital subscriptions in Pakistan.",
+  description: "Guides and updates from SubMate about digital subscriptions in Pakistan.",
 };
 
 export default async function BlogPage() {
@@ -27,7 +27,7 @@ export default async function BlogPage() {
         <Reveal>
           <Eyebrow>Guides &amp; updates</Eyebrow>
         </Reveal>
-        <BlurHeading text="The Subly blog" className="display-2xl mt-5" as="h1" />
+        <BlurHeading text="The SubMate blog" className="display-2xl mt-5" as="h1" />
         <Reveal delay={150}>
           <p className="lead-lg mt-5 text-muted-foreground">
             Guides, updates and honest advice about subscriptions in Pakistan.

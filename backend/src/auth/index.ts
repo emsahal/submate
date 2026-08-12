@@ -14,7 +14,7 @@ import { getSettings } from "../lib/settings.js";
  * supplies its own role.
  */
 export const auth = betterAuth({
-  appName: "Subly",
+  appName: "SubMate",
   secret: config.authSecret,
   baseURL: config.backendUrl,
   trustedOrigins: Array.from(
@@ -95,7 +95,7 @@ export const auth = betterAuth({
             await db.update(schema.users).set({ role: "ADMIN", updatedAt: new Date() }).where(eq(schema.users.email, email));
           }
           const settings = await getSettings().catch(() => null);
-          const storeName = settings?.storeName || "Subly";
+          const storeName = settings?.storeName || "SubMate";
           await sendEmail({
             to: user.email ?? "",
             subject: `Welcome to ${storeName}!`,

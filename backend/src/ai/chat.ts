@@ -1,6 +1,6 @@
 // Curated Q&A knowledge base (covers greetings, payments, privacy, orders, subscriptions, refunds, WhatsApp)
 export const FAQ_KNOWLEDGE = [
-  { q: "hi|hello|salam|assalam oalaikum|hey|good morning|good afternoon", a: "Hello! 👋 Welcome to Subly. I'm the Subly assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human." },
+  { q: "hi|hello|salam|assalam oalaikum|hey|good morning|good afternoon", a: "Hello! 👋 Welcome to SubMate. I'm the SubMate assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human." },
   { q: "how do i pay|payment methods|payment options", a: "After placing an order you'll see our payment methods: JazzCash, Easypaisa, NayaPay and bank transfer. Transfer the order amount in PKR and upload a screenshot of the payment from your order page. No card or international payment needed." },
   { q: "is payment secure|is my payment safe", a: "Yes. You pay directly to our official JazzCash/Easypaisa/NayaPay/bank accounts and upload a screenshot of the payment. Screenshots are stored securely and only the admin team can review them." },
   { q: "how long does payment verification take|when will my payment be approved", a: "Payments are verified by our system and admin team, usually within a few hours to 24 hours. You'll get a notification (and email) the moment the payment is approved." },
@@ -16,7 +16,7 @@ export const FAQ_KNOWLEDGE = [
   { q: "refund refund policy|money back", a: "Pending/rejected orders are refunded in full. Once access has been delivered and your subscription is activated, fulfilled orders are non-refundable. Contact WhatsApp +92 314 9466389 with your order number for any refund request." },
   { q: "order rejected|my payment was rejected|reason for rejection", a: "A payment is rejected when the screenshot is unclear, doesn't match the order amount, or can't be verified. You can re-upload a clear screenshot from your order page, or message us on WhatsApp +92 314 9466389." },
   { q: "privacy|is my data safe|information privacy policy", a: "Your data is kept private. Payment screenshots are only visible to the admin team for verification, and access details are encrypted and shown only to you on your subscription page." },
-  { q: "is this legal legitimate|is subly safe|can i trust you", a: "Subly only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
+  { q: "is this legal legitimate|is subly safe|can i trust you", a: "SubMate only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
   { q: "how do i contact support|contact human agent|customer service", a: "For real-person help, message us on WhatsApp at +92 314 9466389 — quickest response. You can also email sarcasticsahal@gmail.com. Include your order number for fast help." },
   { q: "whatsapp number|contact number|support number", a: "Our WhatsApp is +92 314 9466389. Tap the WhatsApp button in the chat to message us directly. Email: sarcasticsahal@gmail.com." },
   { q: "pricing price in pkr|how much does it cost", a: "All prices are shown in PKR on each plan. Prices and availability can change, so always confirm on the product page before ordering. For any price question, ask us on WhatsApp +92 314 9466389." },
@@ -38,7 +38,7 @@ function answerFromKnowledge(userQuery: string): string | null {
 
   // 1) Greeting shortcuts
   if (/^\s*(hi|hello|salam|hey|good morning|good afternoon)\s*$/.test(q)) {
-    return "Hello! 👋 Welcome to Subly. I'm the Subly assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human.";
+    return "Hello! 👋 Welcome to SubMate. I'm the SubMate assistant. Ask me anything about our subscriptions, how to pay, verification, or your order — or message us on WhatsApp at +92 314 9466389 for a human.";
   }
 
   // 2) Keyword‑overlap match against FAQ_KNOWLEDGE

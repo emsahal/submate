@@ -74,7 +74,7 @@ function AuthPageContent() {
       <Card className="card-bubble w-full">
         <CardHeader className="items-center text-center">
           <Logo className="mb-2" />
-          <CardTitle className="text-2xl">Welcome to Subly</CardTitle>
+          <CardTitle className="text-2xl">Welcome to SubMate</CardTitle>
           <CardDescription>
             {mode === "signin" ? "Sign in to order subscriptions and manage your payments." : "Create an account to get started."}
           </CardDescription>

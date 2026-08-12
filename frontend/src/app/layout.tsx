@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: ["digital subscriptions", "Pakistan", "streaming", "music", "productivity", "Subly"],
+  keywords: ["digital subscriptions", "Pakistan", "streaming", "music", "productivity", "SubMate"],
   authors: [{ name: siteConfig.legalName }],
   openGraph: {
     type: "website",

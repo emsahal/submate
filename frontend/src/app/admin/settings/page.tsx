@@ -28,7 +28,7 @@ type Settings = {
 };
 
 const defaults: Settings = {
-  storeName: "Subly",
+  storeName: "SubMate",
   supportEmail: "support@subly.pk",
   currency: "PKR",
   maintenanceMode: false,

@@ -154,7 +154,7 @@ const dashboardSubs = [
 
 const featuredReview = {
   quote:
-    "I never had an international card, so streaming services always felt out of reach. Subly changed that — I pay with JazzCash and my Netflix is up within minutes. The admin actually confirms the payment before releasing access, which is exactly the trust I was looking for.",
+    "I never had an international card, so streaming services always felt out of reach. SubMate changed that — I pay with JazzCash and my Netflix is up within minutes. The admin actually confirms the payment before releasing access, which is exactly the trust I was looking for.",
   name: "Ayesha R.",
   role: "Streaming subscriber · Karachi",
   initials: "AR",
@@ -610,7 +610,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7 · Why Subly — asymmetric ───────────────────────── */}
+      {/* ── 7 · Why SubMate — asymmetric ───────────────────────── */}
       <section className="section-pad mx-auto max-w-7xl px-6">
         <div className="max-w-2xl">
           <Reveal>

@@ -14,7 +14,7 @@ interface Msg {
 }
 
 const waLink = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-  "Hi Subly! I'd like some help with a subscription.",
+  "Hi SubMate! I'd like some help with a subscription.",
 )}`;
 
 const suggestions = ["How do I pay?", "Which subscriptions do you offer?", "How does verification work?"];
@@ -70,7 +70,7 @@ export function ChatWidget() {
               <Bot className="h-5 w-5" />
             </span>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-semibold">Subly Assistant</p>
+              <p className="text-sm font-semibold">SubMate Assistant</p>
               <p className="text-xs text-primary-foreground/80">Online · replies instantly</p>
             </div>
             <button
@@ -175,7 +175,7 @@ export function ChatWidget() {
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
-          aria-label="Open Subly Assistant"
+          aria-label="Open SubMate Assistant"
           className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
         >
           {open ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}

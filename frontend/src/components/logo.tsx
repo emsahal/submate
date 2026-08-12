@@ -3,11 +3,12 @@ import Link from "next/link";
 
 export function Logo({ className, href = "/" }: { className?: string; href?: string }) {
   return (
-    <Link href={href} className={cn("group flex items-center gap-2.5 font-heading text-xl font-bold tracking-tight", className)}>
-      <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-emerald-500 text-sm font-bold text-primary-foreground shadow-[0_2px_8px_-2px_rgba(14,124,107,0.6)] transition-transform duration-200 group-hover:scale-105">
-        S
+    <Link href={href} className={cn("group inline-flex items-center font-heading text-2xl font-black tracking-tight", className)}>
+      <span className="text-foreground transition-colors duration-200 group-hover:text-primary">Sub</span>
+      <span className="bg-gradient-to-r from-primary via-emerald-500 to-teal-400 bg-clip-text text-transparent transition-all duration-200 group-hover:brightness-110">
+        Mate
       </span>
-      <span>Subly</span>
+      <span className="ml-0.5 inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
     </Link>
   );
 }

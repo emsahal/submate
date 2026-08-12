@@ -49,11 +49,11 @@ export async function sendEmail(input: SendEmailInput): Promise<boolean> {
   if (!clientInstance) return false;
 
   let from = config.resendFromEmail;
-  let storeName = "Subly";
+  let storeName = "SubMate";
   const settings = await getSettings().catch(() => null);
   storeName = settings?.storeName || storeName;
   if (!from) {
-    from = settings?.supportEmail || "Subly <onboarding@resend.dev>";
+    from = settings?.supportEmail || "SubMate <onboarding@resend.dev>";
   }
 
   try {

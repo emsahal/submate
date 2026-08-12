@@ -25,15 +25,15 @@ export interface SettingsShape {
 }
 
 const defaults: SettingsShape = {
-  storeName: "Subly",
+  storeName: "SubMate",
   supportEmail: "support@subly.pk",
   currency: "PKR",
   maintenanceMode: false,
   maintenanceMessage: "We're doing some maintenance. Back soon.",
   seo: {
-    defaultTitle: "Affordable Digital Subscriptions in Pakistan | Subly",
+    defaultTitle: "Affordable Digital Subscriptions in Pakistan | SubMate",
     defaultDescription:
-      "Discover eligible digital subscription plans, compare options, and manage your subscriptions easily with Subly.",
+      "Discover eligible digital subscription plans, compare options, and manage your subscriptions easily with SubMate.",
   },
   order: {
     pendingExpiryHours: 48,

@@ -52,7 +52,7 @@ export function SiteFooter() {
             © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
           </p>
           <p className="max-w-md text-center text-xs text-muted-foreground sm:text-right">
-            Subly is a marketplace, not an agent of any provider. Only subscribe where you're legally eligible and the provider allows it.
+            SubMate is a marketplace, not an agent of any provider. Only subscribe where you're legally eligible and the provider allows it.
           </p>
         </div>
       </div>
