@@ -59,58 +59,62 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center justify-end gap-2">
-          <ThemeToggle />
-          {!isPending &&
-            (user ? (
-              <>
-                <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
-                  <Link href="/dashboard">
-                    <LayoutDashboard className="h-4 w-4" />
-                    Dashboard
-                  </Link>
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="rounded-full focus-visible:outline-2 focus-visible:outline-ring" aria-label="Account menu">
-                      <Avatar className="h-8 w-8">
-                        {user.image ? <AvatarImage src={user.image} alt={user.name} /> : null}
-                        <AvatarFallback>{(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}</AvatarFallback>
-                      </Avatar>
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>
-                      <div className="text-sm font-medium">{user.name}</div>
-                      <div className="text-xs font-normal text-muted-foreground">{user.email}</div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href="/dashboard">
-                        <LayoutDashboard className="h-4 w-4" /> Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    {user.role === "ADMIN" && (
+          {/* Desktop Only: Theme and Sign In */}
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
+            {!isPending &&
+              (user ? (
+                <>
+                  <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
+                    <Link href="/dashboard">
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <button className="rounded-full focus-visible:outline-2 focus-visible:outline-ring" aria-label="Account menu">
+                        <Avatar className="h-8 w-8">
+                          {user.image ? <AvatarImage src={user.image} alt={user.name} /> : null}
+                          <AvatarFallback>{(user.name ?? user.email ?? "U").slice(0, 1).toUpperCase()}</AvatarFallback>
+                        </Avatar>
+                      </button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuLabel>
+                        <div className="text-sm font-medium">{user.name}</div>
+                        <div className="text-xs font-normal text-muted-foreground">{user.email}</div>
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator />
                       <DropdownMenuItem asChild>
-                        <Link href="/admin">
-                          <User className="h-4 w-4" /> Admin Panel
+                        <Link href="/dashboard">
+                          <LayoutDashboard className="h-4 w-4" /> Dashboard
                         </Link>
                       </DropdownMenuItem>
-                    )}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4" /> Sign out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <Button variant="outline" size="sm" onClick={() => router.push("/auth")}>
-                <LogIn className="h-4 w-4" />
-                Sign in
-              </Button>
-            ))}
+                      {user.role === "ADMIN" && (
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin">
+                            <User className="h-4 w-4" /> Admin Panel
+                          </Link>
+                        </DropdownMenuItem>
+                      )}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={handleSignOut}>
+                        <LogOut className="h-4 w-4" /> Sign out
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </>
+              ) : (
+                <Button variant="outline" size="sm" onClick={() => router.push("/auth")}>
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </Button>
+              ))}
+          </div>
 
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
+          {/* Hamburger button: always on the far right on mobile */}
+          <Button variant="ghost" size="icon" className="md:hidden -mr-2" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
@@ -135,12 +139,21 @@ export function SiteHeader() {
               </Link>
             ) : (
               <button
-                onClick={() => signInWithGoogle("/dashboard")}
+                onClick={() => {
+                  setMobileOpen(false);
+                  router.push("/auth");
+                }}
                 className="rounded-md px-3 py-2 text-left text-sm font-medium text-primary hover:bg-accent"
               >
-                Sign in with Google
+                Sign in
               </button>
             )}
+            
+            {/* Mobile Theme Toggle inside drawer */}
+            <div className="flex items-center justify-between border-t border-border mt-3 pt-3 px-3">
+              <span className="text-sm font-medium text-muted-foreground">Theme</span>
+              <ThemeToggle />
+            </div>
           </div>
         </nav>
       )}
