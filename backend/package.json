@@ -1,0 +1,41 @@
+{
+  "name": "subly-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --noEmit",
+    "start": "tsx src/index.ts",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:seed": "tsx scripts/seed.ts",
+    "cron:expiry": "tsx scripts/expiry-job.ts",
+    "env:check": "tsx scripts/env-check.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1107.0",
+    "@aws-sdk/s3-request-presigner": "^3.1107.0",
+    "@better-auth/drizzle-adapter": "^1.0.1",
+    "@hono/node-server": "^1.14.0",
+    "@neondatabase/serverless": "^1.1.0",
+    "better-auth": "^1.6.26",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.9.0",
+    "resend": "^6.19.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "drizzle-kit": "^0.31.10",
+    "tsx": "^4.19.4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

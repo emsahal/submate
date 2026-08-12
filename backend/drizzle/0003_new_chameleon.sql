@@ -1,0 +1,1 @@
+ALTER TABLE "subscriptions" ADD COLUMN IF NOT EXISTS "user_confirmed_at" timestamp with time zone;
