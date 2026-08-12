@@ -396,25 +396,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 3 · Payments — asymmetric ────────────────────────── */}
-      <section className="section-pad mx-auto max-w-7xl px-6">
-        <div className="grid gap-14 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:gap-20">
-          <div>
+      {/* ── 3 · Payments — standardized ────────────────────────── */}
+      <section className="section-pad border-b border-border bg-background">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto mb-12 max-w-2xl text-center">
             <Reveal>
-              <Eyebrow>Local payments</Eyebrow>
+              <div className="flex justify-center">
+                <Eyebrow>Local payments</Eyebrow>
+              </div>
             </Reveal>
             <BlurHeading
-              text="Pay your way with local payments."
-              className="display-2xl mt-5 max-w-xl"
+              text="Pay your way with local payments"
+              className="display-xl mt-5"
+              align="center"
             />
             <Reveal delay={200}>
-              <p className="lead-lg mt-6 max-w-lg text-muted-foreground">
-                No international credit card? No problem. Fund your subscriptions the way you already pay for everything
-                else — in rupees, through the wallets Pakistan already trusts, with a human confirming every payment.
+              <p className="lead mx-auto mt-4 max-w-xl text-muted-foreground">
+                No international credit card? No problem. Fund your subscriptions in rupees via the wallets Pakistan already trusts, with a human confirming every transaction.
               </p>
             </Reveal>
             <Reveal delay={300}>
-              <div className="mt-8 flex flex-wrap gap-2.5">
+              <div className="mt-6 flex flex-wrap justify-center gap-2.5">
                 <Badge variant="secondary" className="gap-1.5">
                   <CreditCard className="h-3.5 w-3.5" /> No card required
                 </Badge>
@@ -428,7 +430,7 @@ export default async function HomePage() {
             </Reveal>
           </div>
 
-          <div className="space-y-4">
+          <div className="mx-auto max-w-3xl space-y-4">
             {methods.map((m, i) => {
               const meta = methodMeta[m.type] ?? methodMeta.OTHER;
               const Icon = meta.icon;
