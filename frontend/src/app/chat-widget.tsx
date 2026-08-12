@@ -70,7 +70,7 @@ function findAnswer(query: string): string | null {
     let score = 0;
     for (const token of qSet) {
       // Check if token appears in the FAQ question (case-insensitive, substring)
-      if (entry.q.toLowerCase().includes(tokenize(token))) {
+      if (entry.q.toLowerCase().includes(token.toLowerCase())) {
         score += 2;
       }
     }
