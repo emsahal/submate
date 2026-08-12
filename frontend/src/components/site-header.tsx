@@ -38,12 +38,12 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 sm:px-10 lg:px-16">
-        <div className="flex items-center">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-6 sm:px-10 lg:px-16">
+        <div className="flex items-center shrink-0">
           <Logo />
         </div>
 
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center justify-center gap-1 md:flex flex-1 mx-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -58,7 +58,7 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="flex items-center justify-end gap-2">
+        <div className="flex items-center justify-end gap-2 shrink-0">
           {/* Desktop Only: Theme and Sign In */}
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
