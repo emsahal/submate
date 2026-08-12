@@ -528,7 +528,7 @@ body {
 
 /* ── Mobile Responsive Overrides ───────────────────────────── */
 
-/* Tighter horizontal padding on small screens */
+/* Tighter horizontal padding and height adjustments on small screens */
 @media (max-width: 639px) {
   .display-hero {
     font-size: clamp(2rem, 8vw, 3rem);
@@ -551,21 +551,32 @@ body {
   }
 }
 
-/* Hero search bar: stack vertically on mobile */
-@media (max-width: 500px) {
+/* Hero search bar: stack vertically on mobile and pop button out */
+@media (max-width: 600px) {
   .hero-search-form {
     flex-direction: column;
     gap: 0.75rem;
     padding: 0.75rem;
     border-radius: 1rem;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .hero-search-form svg {
+    display: none !important;
   }
   .hero-search-form input {
-    height: 2.75rem;
+    height: 3rem;
     font-size: 0.9375rem;
+    background: var(--card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 0.75rem !important;
+    padding: 0 1rem !important;
   }
   .hero-search-form button {
     width: 100%;
-    border-radius: 0.625rem;
+    height: 3rem !important;
+    border-radius: 0.75rem !important;
   }
 }
 

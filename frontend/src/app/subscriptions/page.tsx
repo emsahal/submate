@@ -69,7 +69,7 @@ function SubscriptionsPageContent() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-26 py-10 sm:py-14">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-14">
       {loading && !initialLoaded ? (
         <div className="flex min-h-[55vh] flex-col items-center justify-center gap-4">
           <div className="relative flex h-14 w-14 items-center justify-center">
@@ -82,7 +82,7 @@ function SubscriptionsPageContent() {
         </div>
       ) : (
         <>
-          <div className="relative mb-8 overflow-hidden rounded-3xl border border-border bg-card px-26 py-10 sm:px-26">
+          <div className="relative mb-8 overflow-hidden rounded-3xl border border-border bg-card px-6 py-10 sm:px-10">
         <div className="pointer-events-none absolute inset-0 bg-grid text-primary/30 [mask-image:radial-gradient(ellipse_at_top_left,black,transparent_70%)]" />
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 -bottom-24 h-48 w-48 rounded-full bg-teal-200/25 blur-3xl" />
