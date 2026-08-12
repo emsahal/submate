@@ -12,16 +12,31 @@ import { ApiError, toApiError } from "./lib/errors.js";
 
 const app = new Hono();
 
-const frontendOrigins = (process.env.FRONTEND_URL ?? "http://localhost:3000")
+const defaultOrigins = [
+  "http://localhost:3000",
+  "https://submate.tech",
+  "https://www.submate.tech",
+  "https://submate-frontend.vercel.app",
+];
+
+const envOrigins = (process.env.FRONTEND_URL ?? "")
   .split(",")
   .map((s) => s.trim())
   .filter(Boolean);
 
-app.use("/api/*", secureHeaders());
+const frontendOrigins = Array.from(new Set([...defaultOrigins, ...envOrigins]));
+
+app.use("*", secureHeaders());
 app.use(
-  "/api/*",
+  "*",
   cors({
-    origin: frontendOrigins,
+    origin: (origin) => {
+      if (!origin) return origin;
+      if (frontendOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+        return origin;
+      }
+      return frontendOrigins[0] ?? "https://submate.tech";
+    },
     allowHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     allowMethods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
