@@ -81,7 +81,7 @@ export default function AdminSettingsPage() {
     loadGmail();
     const gmailParam = searchParams.get("gmail");
     if (gmailParam === "connected") {
-      toast.success(`Gmail connected${searchParams.get("email") ? ` as ${searchParams.get("email")}` : ""}.`);
+      toast.success("Inbox connected.");
       loadGmail();
     } else if (gmailParam === "error") {
       toast.error(`Gmail connection failed: ${searchParams.get("reason") ?? "unknown error"}`);
@@ -282,7 +282,6 @@ export default function AdminSettingsPage() {
                       <span className="h-1.5 w-1.5 rounded-full bg-success" /> Active
                     </span>
                   </div>
-                  <p className="mt-1 break-all text-muted-foreground">{gmail.email}</p>
                   {gmail.connectedAt ? (
                     <p className="mt-1 text-xs text-muted-foreground">Connected {new Date(gmail.connectedAt).toLocaleString()}</p>
                   ) : null}
