@@ -47,14 +47,9 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
-          </p>
-          <p className="max-w-md text-center text-xs text-muted-foreground sm:text-right">
-            SubMate is an independent subscription platform and is not affiliated with or endorsed by Netflix, Google,
-            Spotify, Disney, Amazon or any other third-party service. Only subscribe where you're legally eligible and
-            the provider allows it.
           </p>
         </div>
       </div>
