@@ -65,5 +65,6 @@ app.route("/api/admin", adminRoutes);
 app.route("/api/cron", cronRoutes);
 
 app.get("/", (c) => c.json({ service: "subly-backend", status: "ok" }));
+app.get("/health", (c) => c.json({ ok: true, service: "subly-backend", time: new Date().toISOString() }));
 
 export default app;
