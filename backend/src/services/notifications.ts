@@ -35,7 +35,7 @@ export async function notify(input: NotifyInput): Promise<void> {
     if ((error as { code?: string })?.code === "23505") return;
     console.error("[notify] failed to create notification", error);
   }
-  void emailNotification(input);
+  await emailNotification(input);
 }
 
 /** Best-effort email mirror of an in-app notification via Resend. */
