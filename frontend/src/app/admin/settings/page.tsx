@@ -264,11 +264,11 @@ export default function AdminSettingsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Subscription access codes (Gmail)</CardTitle>
+              <CardTitle className="text-base">Subscription access codes</CardTitle>
               <CardDescription>
-                Connect the Gmail inbox that receives verification codes for subscription sign-in. Customers request the
-                access code from their subscription page (limited to 3 per day) and enter it on the official service's
-                website or app.
+                Connect the inbox that receives verification codes for subscription sign-in. Customers request the access
+                code from their subscription page (limited to 3 per day) and enter it on the official service's website
+                or app.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -296,7 +296,7 @@ export default function AdminSettingsPage() {
                   <p className="text-sm text-muted-foreground">Not connected yet.</p>
                   <Button type="button" className="mt-3" onClick={connectGmail} disabled={gmailBusy}>
                     {gmailBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}
-                    Connect Gmail
+                    Connect inbox
                   </Button>
                 </div>
               )}
