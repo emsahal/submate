@@ -42,8 +42,8 @@ export default function AdminSettingsPage() {
   const [settings, setSettings] = React.useState<Settings | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [saving, setSaving] = React.useState(false);
-  const [gmail, setGmail] = React.useState<{ connected: boolean; email: string | null; connectedAt: string | null } | null>(null);
-  const [gmailBusy, setGmailBusy] = React.useState(false);
+  const [inbox, setInbox] = React.useState<{ connected: boolean; email: string | null; connectedAt: string | null } | null>(null);
+  const [inboxBusy, setInboxBusy] = React.useState(false);
   const [broadcastOpen, setBroadcastOpen] = React.useState(false);
   const [broadcastTitle, setBroadcastTitle] = React.useState("");
   const [broadcastBody, setBroadcastBody] = React.useState("");
@@ -67,49 +67,49 @@ export default function AdminSettingsPage() {
     }
   }
 
-  async function loadGmail() {
+  async function loadInbox() {
     try {
       const d = await get<{ connected: boolean; email: string | null; connectedAt: string | null }>("/admin/gmail/status");
-      setGmail(d);
+      setInbox(d);
     } catch {
-      setGmail(null);
+      setInbox(null);
     }
   }
 
   React.useEffect(() => {
     load();
-    loadGmail();
+    loadInbox();
     const gmailParam = searchParams.get("gmail");
     if (gmailParam === "connected") {
       toast.success("Inbox connected.");
-      loadGmail();
+      loadInbox();
     } else if (gmailParam === "error") {
-      toast.error(`Gmail connection failed: ${searchParams.get("reason") ?? "unknown error"}`);
+      toast.error(`Inbox connection failed: ${searchParams.get("reason") ?? "unknown error"}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  async function connectGmail() {
-    setGmailBusy(true);
+  async function connectInbox() {
+    setInboxBusy(true);
     try {
       const d = await get<{ url: string }>("/admin/gmail/authorize");
       window.location.href = d.url;
     } catch (err) {
       toast.error(formatError(err));
-      setGmailBusy(false);
+      setInboxBusy(false);
     }
   }
 
-  async function disconnectGmail() {
-    setGmailBusy(true);
+  async function disconnectInbox() {
+    setInboxBusy(true);
     try {
       await post("/admin/gmail/disconnect");
-      setGmail({ connected: false, email: null, connectedAt: null });
-      toast.success("Gmail disconnected.");
+      setInbox({ connected: false, email: null, connectedAt: null });
+      toast.success("Inbox disconnected.");
     } catch (err) {
       toast.error(formatError(err));
     } finally {
-      setGmailBusy(false);
+      setInboxBusy(false);
     }
   }
 
@@ -272,9 +272,9 @@ export default function AdminSettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              {gmail === null ? (
+              {inbox === null ? (
                 <Skeleton className="h-20" />
-              ) : gmail.connected ? (
+              ) : inbox.connected ? (
                 <div className="rounded-lg border border-border bg-muted/30 p-4 text-sm">
                   <div className="flex items-center justify-between">
                     <p className="font-medium">Connected</p>
@@ -282,19 +282,19 @@ export default function AdminSettingsPage() {
                       <span className="h-1.5 w-1.5 rounded-full bg-success" /> Active
                     </span>
                   </div>
-                  {gmail.connectedAt ? (
-                    <p className="mt-1 text-xs text-muted-foreground">Connected {new Date(gmail.connectedAt).toLocaleString()}</p>
+                  {inbox.connectedAt ? (
+                    <p className="mt-1 text-xs text-muted-foreground">Connected {new Date(inbox.connectedAt).toLocaleString()}</p>
                   ) : null}
-                  <Button type="button" variant="outline" size="sm" className="mt-3" onClick={disconnectGmail} disabled={gmailBusy}>
-                    {gmailBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Unplug className="h-4 w-4" />}
+                  <Button type="button" variant="outline" size="sm" className="mt-3" onClick={disconnectInbox} disabled={inboxBusy}>
+                    {inboxBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Unplug className="h-4 w-4" />}
                     Disconnect
                   </Button>
                 </div>
               ) : (
                 <div>
                   <p className="text-sm text-muted-foreground">Not connected yet.</p>
-                  <Button type="button" className="mt-3" onClick={connectGmail} disabled={gmailBusy}>
-                    {gmailBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}
+                  <Button type="button" className="mt-3" onClick={connectInbox} disabled={inboxBusy}>
+                    {inboxBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}
                     Connect inbox
                   </Button>
                 </div>
