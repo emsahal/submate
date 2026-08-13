@@ -17,22 +17,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const [products, categories, posts] = await Promise.all([
-      fetch(`${backendUrl}/api/public/products?limit=200`).then((r) => r.json()).catch(() => ({ items: [] })),
-      fetch(`${backendUrl}/api/public/categories`).then((r) => r.json()).catch(() => []),
-      fetch(`${backendUrl}/api/public/blog?limit=200`).then((r) => r.json()).catch(() => ({ items: [] })),
+      fetch(`${backendUrl}/api/products?limit=48`).then((r) => r.json()).catch(() => ({ items: [] })),
+      fetch(`${backendUrl}/api/categories`).then((r) => r.json()).catch(() => []),
+      fetch(`${backendUrl}/api/blog?limit=48`).then((r) => r.json()).catch(() => ({ items: [] })),
     ]);
 
     for (const p of products.items ?? []) {
-      entries.push({ url: `${SITE_URL}/subscriptions/${p.slug}`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 });
+      entries.push({ url: `${SITE_URL}/subscriptions/${p.slug}`, lastModified: p.updatedAt ? new Date(p.updatedAt) : new Date(), changeFrequency: "weekly", priority: 0.9 });
     }
     for (const c of Array.isArray(categories) ? categories : []) {
-      entries.push({ url: `${SITE_URL}/categories/${c.slug}`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 });
+      entries.push({ url: `${SITE_URL}/categories/${c.slug}`, lastModified: c.updatedAt ? new Date(c.updatedAt) : new Date(), changeFrequency: "weekly", priority: 0.6 });
     }
     for (const b of posts.items ?? []) {
       entries.push({ url: `${SITE_URL}/blog/${b.slug}`, lastModified: b.publishedAt ? new Date(b.publishedAt) : new Date(), changeFrequency: "monthly", priority: 0.5 });
     }
   } catch {
-    // Backend offline during build — static routes only.
+    // Backend offline during generation — static routes only.
   }
 
   return entries;
