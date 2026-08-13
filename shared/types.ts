@@ -208,7 +208,6 @@ export interface OrderDetail {
 
 export interface SubscriptionOtpStatus {
   enabled: boolean;
-  mailbox: string | null;
   used: number;
   limit: number;
   canRequest: boolean;

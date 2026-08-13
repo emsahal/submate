@@ -770,7 +770,7 @@ export default async function HomePage() {
                     <span className="h-2.5 w-2.5 rounded-full bg-border" />
                   </div>
                   <span className="hidden flex-1 rounded-md border border-border bg-card px-3 py-1 text-center font-mono text-xs text-muted-foreground sm:block">
-                    subly.pk/dashboard
+                    submate.tech/dashboard
                   </span>
                 </div>
 

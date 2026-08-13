@@ -1,6 +1,6 @@
 import { and, eq, inArray, lt } from "drizzle-orm";
 import { db } from "../db/index.js";
-import { subscriptions, products, orders } from "../db/schema.js";
+import { subscriptions, products, orders, otpRequests } from "../db/schema.js";
 import { notify, notifyAdmins } from "./notifications.js";
 import { getSettings } from "../lib/settings.js";
 import { deriveStatus, remainingDays } from "./subscriptions.js";
@@ -128,4 +128,19 @@ export async function expireStaleOrders(): Promise<number> {
     .set({ status: "EXPIRED", updatedAt: new Date() })
     .where(and(eq(orders.status, "PENDING_PAYMENT"), lt(orders.expiresAt, new Date())));
   return stale.length;
+}
+
+/**
+ * Delete expired subscription access codes so they are not retained after
+ * their short validity window (codes expire 10 minutes after retrieval).
+ */
+export async function purgeExpiredOtps(now = new Date()): Promise<number> {
+  const rows = await db
+    .select({ id: otpRequests.id })
+    .from(otpRequests)
+    .where(lt(otpRequests.expiresAt, now));
+
+  if (rows.length === 0) return 0;
+  await db.delete(otpRequests).where(lt(otpRequests.expiresAt, now));
+  return rows.length;
 }

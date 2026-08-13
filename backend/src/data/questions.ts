@@ -27,7 +27,7 @@ export const FAQ_KNOWLEDGE: KnowledgeQa[] = [
   /* -------------------------------- Delivery ------------------------------- */
   { q: "when will my subscription be activated delivery time how long to get access", a: "Once your payment is approved, we fulfill your order and your subscription starts the same day. Access details appear on your subscription page as soon as the admin adds them. Activation is usually within 24 hours of approval." },
   { q: "where is my access i don't see my access no access details", a: "Open Dashboard → Subscriptions and click your subscription. Access details show there once your order is fulfilled and the admin adds them. If it's been more than a day after approval, contact us on WhatsApp +92 314 9466389." },
-  { q: "i don't have access access not working login problem", a: "If your delivered access isn't working or you need a fresh login code, use the OTP/verification-code request on your subscription page (limited to 3 per day). Still stuck? Message us on WhatsApp +92 314 9466389." },
+  { q: "i don't have access access not working login problem", a: "If your delivered access isn't working or you need a fresh access code, use the access-code request on your subscription page (limited to 3 per day). Enter the code only on the official service website or app. Still stuck? Message us on WhatsApp +92 314 9466389." },
 
   /* ------------------------------ Subscriptions ---------------------------- */
   { q: "which subscriptions do you offer what subscriptions netflix spotify youtube", a: "We offer Netflix, Spotify, YouTube Premium, Disney+, HBO Max, Canva, ChatGPT Plus, Adobe and more. Browse the full catalogue on our storefront or ask me about a specific product." },
@@ -40,12 +40,12 @@ export const FAQ_KNOWLEDGE: KnowledgeQa[] = [
   { q: "order rejected my payment was rejected reason for rejection", a: "A payment is rejected when the screenshot is unclear, doesn't match the order amount, or can't be verified. You can re-upload a clear screenshot from your order page, or message us on WhatsApp +92 314 9466389." },
 
   /* -------------------------------- Privacy ------------------------------- */
-  { q: "privacy is my data safe my information privacy policy", a: "Your data is kept private. Payment screenshots are only visible to the admin team for verification, and access details are encrypted and shown only to you on your subscription page." },
+  { q: "privacy is my data safe my information privacy policy", a: "Your data is kept private. Payment screenshots are only visible to the admin team for verification, and access details are encrypted and shown only to you on your subscription page. SubMate is an independent subscription platform and is not affiliated with or endorsed by any third-party service." },
   { q: "is this legal legitimate is subly safe can i trust you", a: "SubMate only lists subscriptions where you're eligible and the provider allows sharing. Please read the terms and provider eligibility before purchasing. For any concern, reach a human on WhatsApp +92 314 9466389." },
 
   /* ------------------------------- Contact -------------------------------- */
-  { q: "how do i contact support contact human agent customer service", a: "For real-person help, message us on WhatsApp at +92 314 9466389 — quickest response. You can also email sarcasticsahal@gmail.com. Include your order number for fast help." },
-  { q: "whatsapp number contact number support number", a: "Our WhatsApp is +92 314 9466389. Tap the WhatsApp button in the chat to message us directly. Email: sarcasticsahal@gmail.com." },
+  { q: "how do i contact support contact human agent customer service", a: "For real-person help, message us on WhatsApp at +92 314 9466389 — quickest response. Include your order number for fast help." },
+  { q: "whatsapp number contact number support number", a: "Our WhatsApp is +92 314 9466389. Tap the WhatsApp button in the chat to message us directly." },
 
   /* ----------------------------- Misc / fallback --------------------------- */
   { q: "pricing price in pkr how much does it cost", a: "All prices are shown in PKR on each plan. Prices and availability can change, so always confirm on the product page before ordering. For any price question, ask us on WhatsApp +92 314 9466389." },

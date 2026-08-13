@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { runExpiryJob } from "../services/expiry.js";
+import { runExpiryJob, purgeExpiredOtps } from "../services/expiry.js";
 
 export const cronRoutes = new Hono();
 
@@ -15,6 +15,6 @@ cronRoutes.use("*", async (c, next) => {
 });
 
 cronRoutes.post("/expiry", async (c) => {
-  const summary = await runExpiryJob();
-  return c.json({ ok: true, summary });
+  const [summary, purgedOtps] = await Promise.all([runExpiryJob(), purgeExpiredOtps()]);
+  return c.json({ ok: true, summary, purgedOtps });
 });

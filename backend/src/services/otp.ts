@@ -28,7 +28,6 @@ export async function getOtpStatus(subscriptionId: number): Promise<Subscription
 
   return {
     enabled: Boolean(connection),
-    mailbox: connection?.email ?? null,
     used,
     limit: OTP_LIMIT,
     canRequest: Boolean(connection) && used < OTP_LIMIT,
@@ -40,7 +39,6 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
   code: string;
   expiresAt: string;
   remaining: number;
-  mailbox: string | null;
   used: number;
   limit: number;
 }> {
@@ -58,7 +56,7 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
 
   const connection = await getGmailConnection();
   if (!connection) {
-    throw new ApiError(503, "GMAIL_NOT_CONNECTED", "Sign-in codes aren't available yet. Please try again later.");
+    throw new ApiError(503, "GMAIL_NOT_CONNECTED", "Access codes aren't available yet. Please try again later.");
   }
 
   const windowStart = new Date(Date.now() - OTP_WINDOW_MS);
@@ -71,7 +69,7 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
     throw new ApiError(
       429,
       "OTP_LIMIT_REACHED",
-      `You've used all ${OTP_LIMIT} sign-in code requests for today. Please contact us on WhatsApp for help.`,
+      `You've used all ${OTP_LIMIT} access-code requests for today. Please contact us on WhatsApp for help.`,
     );
   }
 
@@ -80,7 +78,7 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
     throw new ApiError(
       404,
       "NO_OTP_FOUND",
-      "No sign-in code found in the account inbox yet. Open the sign-in screen and request the code first, then try again.",
+      "No access code found yet. Open the official service website or app and request a verification code first, then try again here.",
     );
   }
 
@@ -115,7 +113,7 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
   }
 
   if (!inserted[0]) {
-    throw new ApiError(500, "OTP_CREATE_FAILED", "Could not save the sign-in code. Please try again.");
+    throw new ApiError(500, "OTP_CREATE_FAILED", "Could not save the access code. Please try again.");
   }
 
   void logAudit({
@@ -131,7 +129,6 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
     code: otp.code,
     expiresAt: expiresAt.toISOString(),
     remaining: OTP_LIMIT - used - 1,
-    mailbox: connection.email,
     used: used + 1,
     limit: OTP_LIMIT,
   };

@@ -153,6 +153,10 @@ export default function SubscriptionDetailPage() {
               <p className="flex items-center gap-1.5 pt-1 text-xs text-muted-foreground">
                 <Lock className="h-3.5 w-3.5" /> These details are encrypted and shown only to you.
               </p>
+              <p className="rounded-lg bg-muted/30 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                SubMate is an independent subscription platform and is not affiliated with or endorsed by{" "}
+                {subscription.productName}.
+              </p>
             </div>
           ) : (
             <p className="text-sm text-muted-foreground">
@@ -162,7 +166,9 @@ export default function SubscriptionDetailPage() {
         </CardContent>
       </Card>
 
-      {showOtpCard && subscription.otp ? <OtpRequestCard subscriptionId={subscription.id} status={subscription.otp} /> : null}
+      {showOtpCard && subscription.otp ? (
+        <OtpRequestCard subscriptionId={subscription.id} status={subscription.otp} productName={subscription.productName} />
+      ) : null}
 
       {subscription.userConfirmedAt ? (
         <Card className="border-emerald-500/40 bg-emerald-500/5">

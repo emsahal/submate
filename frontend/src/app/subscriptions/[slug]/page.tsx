@@ -167,8 +167,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <Badge variant="outline">Encrypted delivery</Badge>
             </div>
             <p>
-              Only subscribe where the provider and the law allow. SubMate is a marketplace, not an official reseller of
-              any brand.
+              Only subscribe where the provider and the law allow. SubMate is an independent subscription platform and
+              is not affiliated with or endorsed by {product.providerName ?? product.name}.
             </p>
           </div>
         </div>

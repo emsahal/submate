@@ -1,8 +1,8 @@
 import "dotenv/config";
-import { runExpiryJob, expireStaleOrders } from "../src/services/expiry.js";
+import { runExpiryJob, expireStaleOrders, purgeExpiredOtps } from "../src/services/expiry.js";
 
 /**
- * Standalone expiry job — intended for a scheduler (cron / GitHub Actions).
+ * Standalone expiry job �?" intended for a scheduler (cron / GitHub Actions).
  * Equivalent to POST /api/cron/expiry but without the HTTP layer.
  */
 async function main() {
@@ -10,6 +10,9 @@ async function main() {
 
   const staleOrders = await expireStaleOrders();
   console.log(`[expiry-job] expired ${staleOrders} stale order(s).`);
+
+  const purgedOtps = await purgeExpiredOtps();
+  console.log(`[expiry-job] purged ${purgedOtps} expired access code(s).`);
 
   const summary = await runExpiryJob();
   console.log(

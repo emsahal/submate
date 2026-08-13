@@ -29,7 +29,7 @@ type Settings = {
 
 const defaults: Settings = {
   storeName: "SubMate",
-  supportEmail: "support@subly.pk",
+  supportEmail: "support@submate.tech",
   currency: "PKR",
   maintenanceMode: false,
   maintenanceMessage: "",
@@ -264,10 +264,11 @@ export default function AdminSettingsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Netflix sign-in (Gmail)</CardTitle>
+              <CardTitle className="text-base">Subscription access codes (Gmail)</CardTitle>
               <CardDescription>
-                Connect the Gmail inbox that receives Netflix verification codes. Customers request the code from their
-                subscription page (limited to 3 per day).
+                Connect the Gmail inbox that receives verification codes for subscription sign-in. Customers request the
+                access code from their subscription page (limited to 3 per day) and enter it on the official service's
+                website or app.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">

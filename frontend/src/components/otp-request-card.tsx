@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, Clock, Copy, KeyRound, Loader2, MessageCircle } from "lucide-react";
+import { AlertCircle, Check, Clock, Copy, KeyRound, Loader2, MessageCircle } from "lucide-react";
 import type { SubscriptionOtpStatus } from "@/types/shared";
 import { post } from "@/lib/api";
 import { formatError } from "@/lib/utils";
@@ -23,7 +23,15 @@ function formatCountdown(ms: number): string {
   return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: number; status: SubscriptionOtpStatus }) {
+export function OtpRequestCard({
+  subscriptionId,
+  status,
+  productName,
+}: {
+  subscriptionId: number;
+  status: SubscriptionOtpStatus;
+  productName?: string | null;
+}) {
   const [used, setUsed] = React.useState(status.used);
   const [canRequest, setCanRequest] = React.useState(status.canRequest);
   const [loading, setLoading] = React.useState(false);
@@ -68,29 +76,30 @@ export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: num
     }
   }
 
-  const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("I need help signing in to my Netflix subscription.")}`;
+  const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("I need help with my subscription access code.")}`;
 
   return (
     <Card>
       <CardHeader className="flex-row items-center gap-2 space-y-0">
         <KeyRound className="h-5 w-5 text-primary" />
-        <CardTitle className="text-base">Sign in code (OTP)</CardTitle>
+        <CardTitle className="text-base">Subscription access code</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <CardDescription className="leading-relaxed">
-          Netflix now signs in with a code instead of a password. The account email is shared above.
+          When the {productName ?? "service"} website or app asks for a verification code, request it here and we&apos;ll
+          retrieve it for you. Never use this code anywhere except the official {productName ?? "service"} website or app.
         </CardDescription>
 
         <ol className="list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
-          <li>Open the Netflix app or site and choose the verification code option.</li>
-          <li>Press “Request sign-in code” — the code arrives in a moment.</li>
-          <li>Enter the code on the sign-in screen. It expires in 10 minutes.</li>
+          <li>Open the official {productName ?? "service"} website or app and choose the verification-code option.</li>
+          <li>Tap “Get Access Code” here — the code is retrieved in a moment.</li>
+          <li>Enter it only on the official {productName ?? "service"} sign-in screen. It expires in 10 minutes.</li>
         </ol>
 
         {code && !expired ? (
           <div className="space-y-3">
             <div className="flex flex-col items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 p-5">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground">Your code</p>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Your access code</p>
               <p className="font-mono text-4xl font-bold tracking-[0.35em]">{code}</p>
               <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Clock className="h-3.5 w-3.5" />
@@ -101,6 +110,11 @@ export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: num
                 {copied ? "Copied" : "Copy code"}
               </Button>
             </div>
+            <p className="flex items-start gap-2 rounded-lg border border-warning/30 bg-warning/5 p-3 text-xs text-muted-foreground">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+              Enter this code only on the official {productName ?? "service"} website or app. SubMate will never ask you
+              to enter it anywhere else.
+            </p>
           </div>
         ) : null}
 
@@ -110,7 +124,7 @@ export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: num
           <div className="flex flex-wrap items-center justify-between gap-3">
             <Button type="button" onClick={request} disabled={loading} className="w-full sm:w-auto">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />}
-              {loading ? "Fetching code…" : "Request sign-in code"}
+              {loading ? "Retrieving access code…" : "Get Access Code"}
             </Button>
             <p className="text-xs text-muted-foreground">
               {used} of {status.limit} requests used today
@@ -118,8 +132,8 @@ export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: num
           </div>
         ) : (
           <div className="rounded-lg border border-border bg-muted/40 p-4 text-sm">
-            <p className="font-medium">You&apos;ve used all {status.limit} sign-in code requests today.</p>
-            <p className="mt-1 text-muted-foreground">For security, codes are limited. Contact us on WhatsApp and we&apos;ll get you signed in.</p>
+            <p className="font-medium">You&apos;ve used all {status.limit} access-code requests today.</p>
+            <p className="mt-1 text-muted-foreground">For security, requests are limited. Contact us on WhatsApp and we&apos;ll help you sign in.</p>
             <Button asChild variant="outline" size="sm" className="mt-3">
               <a href={whatsappHref} target="_blank" rel="noreferrer">
                 <MessageCircle className="h-4 w-4" /> Contact on WhatsApp
@@ -127,6 +141,10 @@ export function OtpRequestCard({ subscriptionId, status }: { subscriptionId: num
             </Button>
           </div>
         )}
+
+        <p className="rounded-lg bg-muted/30 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+          SubMate is an independent subscription platform and is not affiliated with or endorsed by {productName ?? "the service"}.
+        </p>
       </CardContent>
     </Card>
   );
