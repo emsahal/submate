@@ -47,7 +47,13 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between border-t border-border pt-6 sm:flex-row">
+        <div className="mt-8 border-t border-border pt-6 text-xs text-muted-foreground leading-relaxed">
+          <p>
+            <strong>Disclaimer:</strong> SubMate is an independent, third-party subscription marketplace. We are not affiliated with, associated with, authorized by, endorsed by, or in any way officially connected to Netflix, Spotify, Canva, YouTube, Adobe, Amazon, Disney, HBO, or any of their subsidiaries or affiliates. All product and company names, logos, brands, and trademarks referenced on this website are the property of their respective owners. Use of these names, logos, and brands does not imply endorsement or affiliation.
+          </p>
+        </div>
+
+        <div className="mt-6 flex flex-col items-center justify-between border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.legalName}. All rights reserved.
           </p>
