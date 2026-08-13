@@ -762,15 +762,11 @@ export default async function HomePage() {
               </div>
 
               <div className="card-shadow overflow-hidden rounded-2xl border border-border bg-card">
-                {/* Browser bar */}
-                <div className="flex items-center gap-4 border-b border-border bg-muted/40 px-5 py-3">
-                  <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-full bg-border" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-border" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-border" />
-                  </div>
-                  <span className="hidden flex-1 rounded-md border border-border bg-card px-3 py-1 text-center font-mono text-xs text-muted-foreground sm:block">
-                    submate.tech/dashboard
+                {/* App header bar */}
+                <div className="flex items-center justify-between border-b border-border bg-muted/40 px-5 py-3">
+                  <span className="font-heading text-sm font-semibold tracking-tight">Your dashboard</span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-success/15 px-2.5 py-0.5 text-[11px] font-medium text-success">
+                    <span className="h-1.5 w-1.5 rounded-full bg-success" /> Access ready
                   </span>
                 </div>
 
