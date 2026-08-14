@@ -8,6 +8,7 @@ import {
   accessCredentials,
   subscriptionSlots,
   users,
+  accountInventory,
 } from "../db/schema.js";
 import { generateSubscriptionNumber } from "../lib/numbers.js";
 import { encryptPayload, decryptPayload } from "../lib/crypto.js";
@@ -89,6 +90,20 @@ export async function fulfillOrder(input: { adminId: string; orderId: number; no
         ? [input.notes, `Screen ${i} of ${screens}`].filter(Boolean).join(" · ")
         : input.notes;
 
+    // Find an available account in the pool for this product
+    const inventory = await db.query.accountInventory.findFirst({
+      where: (t, { eq: e, and: a, lt: l }) =>
+        a(e(t.productId, order.productId), e(t.status, "ACTIVE"), l(t.usedSlots, t.maxSlots)),
+    });
+
+    let inventoryAccountId: number | null = null;
+    let allocatedProfileName: string | null = null;
+
+    if (inventory) {
+      inventoryAccountId = inventory.id;
+      allocatedProfileName = `Profile ${inventory.usedSlots + 1}`;
+    }
+
     const inserted = await db
       .insert(subscriptions)
       .values({
@@ -97,6 +112,8 @@ export async function fulfillOrder(input: { adminId: string; orderId: number; no
         productId: order.productId,
         planId: order.planId,
         orderId: order.id,
+        inventoryAccountId,
+        allocatedProfileName,
         startDate: start,
         expiryDate: expiry,
         status: "ACTIVE",
@@ -107,6 +124,46 @@ export async function fulfillOrder(input: { adminId: string; orderId: number; no
     const subscription = inserted[0];
     if (!subscription) throw new ApiError(500, "SUBSCRIPTION_CREATE_FAILED", `Could not create subscription for screen ${i}.`);
     createdSubs.push(subscription);
+
+    // If allocated, create access credentials and update slot count
+    if (inventory && subscription) {
+      try {
+        const decryptedPassword = decryptPayload(inventory.encryptedPassword, inventory.encryptionIv, inventory.keyVersion);
+
+        // Save the credentials automatically
+        const payloadStr = `${inventory.email}:${decryptedPassword}`;
+        const { ciphertext, iv, keyVersion } = encryptPayload(payloadStr);
+
+        await db
+          .insert(accessCredentials)
+          .values({
+            subscriptionId: subscription.id,
+            type: "GENERIC",
+            encryptedPayload: ciphertext,
+            encryptionIv: iv,
+            keyVersion,
+            publicMeta: { assignedEmail: inventory.email },
+            notes: "Auto-allocated from email pool",
+            createdBy: input.adminId,
+          });
+
+        // Update inventory slot usage
+        const newUsedSlots = inventory.usedSlots + 1;
+        const newStatus = newUsedSlots >= inventory.maxSlots ? "FULL" : "ACTIVE";
+
+        await db
+          .update(accountInventory)
+          .set({
+            usedSlots: newUsedSlots,
+            status: newStatus,
+            updatedAt: new Date(),
+          })
+          .where(eq(accountInventory.id, inventory.id));
+
+      } catch (err) {
+        console.error(`[subscriptions] Auto-credential creation failed for sub #${subscription.id}:`, err);
+      }
+    }
   }
 
   await db

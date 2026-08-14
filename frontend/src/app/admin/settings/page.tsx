@@ -3,8 +3,8 @@
 import * as React from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { Link2, Loader2, Megaphone, Save, Unplug } from "lucide-react";
-import { get, patch, post } from "@/lib/api";
+import { Link2, Loader2, Megaphone, Save, Unplug, Plus, Trash2 } from "lucide-react";
+import { get, patch, post, del } from "@/lib/api";
 import { formatError } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,6 +51,16 @@ export default function AdminSettingsPage() {
   const [sending, setSending] = React.useState(false);
   const searchParams = useSearchParams();
 
+  // Inventory Pool States
+  const [productsList, setProductsList] = React.useState<{ id: number; name: string }[]>([]);
+  const [inventoryList, setInventoryList] = React.useState<any[]>([]);
+  const [newEmail, setNewEmail] = React.useState("");
+  const [newPassword, setNewPassword] = React.useState("");
+  const [newProductId, setNewProductId] = React.useState("");
+  const [newMaxSlots, setNewMaxSlots] = React.useState("5");
+  const [newNotes, setNewNotes] = React.useState("");
+  const [inventoryBusy, setInventoryBusy] = React.useState(false);
+
   async function load() {
     try {
       const d = await get<{ settings: Record<string, Partial<Settings>> }>("/admin/settings");
@@ -61,9 +71,58 @@ export default function AdminSettingsPage() {
         else merged[key] = v as never;
       }
       setSettings(merged);
+
+      const prodRes = await get<{ items: { id: number; name: string }[] }>("/admin/products?limit=100");
+      setProductsList(prodRes.items || []);
+
+      const invRes = await get<{ items: any[] }>("/admin/inventory");
+      setInventoryList(invRes.items || []);
+
       setError(null);
     } catch (err) {
       setError(formatError(err));
+    }
+  }
+
+  async function addInventory() {
+    if (!newEmail.trim() || !newPassword.trim() || !newProductId) {
+      toast.error("Please fill in Email, Password, and select a Product.");
+      return;
+    }
+    setInventoryBusy(true);
+    try {
+      await post("/admin/inventory", {
+        productId: Number(newProductId),
+        email: newEmail.trim(),
+        password: newPassword.trim(),
+        maxSlots: Number(newMaxSlots),
+        notes: newNotes.trim() || undefined,
+      });
+      toast.success("Account added to pool.");
+      setNewEmail("");
+      setNewPassword("");
+      setNewNotes("");
+      const invRes = await get<{ items: any[] }>("/admin/inventory");
+      setInventoryList(invRes.items || []);
+    } catch (err) {
+      toast.error(formatError(err));
+    } finally {
+      setInventoryBusy(false);
+    }
+  }
+
+  async function deleteInventory(id: number) {
+    if (!confirm("Are you sure you want to remove this account from the pool?")) return;
+    setInventoryBusy(true);
+    try {
+      await del(`/admin/inventory/${id}`);
+      toast.success("Account removed.");
+      const invRes = await get<{ items: any[] }>("/admin/inventory");
+      setInventoryList(invRes.items || []);
+    } catch (err) {
+      toast.error(formatError(err));
+    } finally {
+      setInventoryBusy(false);
     }
   }
 
@@ -299,6 +358,99 @@ export default function AdminSettingsPage() {
                   </Button>
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Email Pools (Account Inventory)</CardTitle>
+              <CardDescription>
+                Add master accounts for automatic allocation to active subscriptions (Netflix, Canva, Spotify, etc.).
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="rounded-lg border bg-muted/20 p-4 space-y-3">
+                <p className="text-sm font-semibold">Add New Master Account</p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <Label htmlFor="invProduct">Product</Label>
+                    <select
+                      id="invProduct"
+                      value={newProductId}
+                      onChange={(e) => setNewProductId(e.target.value)}
+                      className="w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none"
+                    >
+                      <option value="">Select product...</option>
+                      {productsList.map((p) => (
+                        <option key={p.id} value={p.id}>{p.name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="invEmail">Email</Label>
+                    <Input id="invEmail" type="email" placeholder="netflix1@gmail.com" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="invPassword">Password</Label>
+                    <Input id="invPassword" type="text" placeholder="Account password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label htmlFor="invMaxSlots">Max Slots (Screens)</Label>
+                    <Input id="invMaxSlots" type="number" min={1} max={50} value={newMaxSlots} onChange={(e) => setNewMaxSlots(e.target.value)} />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="invNotes">Notes (optional)</Label>
+                  <Input id="invNotes" placeholder="Admin notes (e.g. Household verification info)" value={newNotes} onChange={(e) => setNewNotes(e.target.value)} />
+                </div>
+                <Button onClick={addInventory} disabled={inventoryBusy} className="w-full">
+                  {inventoryBusy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+                  Add to pool
+                </Button>
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-sm font-semibold">Current Pools</p>
+                {inventoryList.length === 0 ? (
+                  <p className="text-xs text-muted-foreground">No accounts configured in the pool.</p>
+                ) : (
+                  <div className="overflow-x-auto border rounded-lg">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-muted text-left border-b">
+                          <th className="px-3 py-2 font-medium">Product</th>
+                          <th className="px-3 py-2 font-medium">Email</th>
+                          <th className="px-3 py-2 font-medium">Slots (Used/Max)</th>
+                          <th className="px-3 py-2 font-medium">Status</th>
+                          <th className="px-3 py-2 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y">
+                        {inventoryList.map((item) => {
+                          const prod = productsList.find((p) => p.id === item.productId);
+                          return (
+                            <tr key={item.id} className="hover:bg-muted/40">
+                              <td className="px-3 py-2 font-medium">{prod?.name || `Product #${item.productId}`}</td>
+                              <td className="px-3 py-2 font-mono">{item.email}</td>
+                              <td className="px-3 py-2">{item.usedSlots} / {item.maxSlots}</td>
+                              <td className="px-3 py-2">
+                                <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-medium ${item.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
+                                  {item.status}
+                                </span>
+                              </td>
+                              <td className="px-3 py-2">
+                                <Button size="icon" variant="destructive" className="h-6 w-6" onClick={() => deleteInventory(item.id)} disabled={inventoryBusy}>
+                                  <Trash2 className="h-3 w-3" />
+                                </Button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             </CardContent>
           </Card>
 

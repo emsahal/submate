@@ -392,6 +392,30 @@ export const paymentScreenshots = pgTable(
 /* Subscriptions & delivery                                            */
 /* ------------------------------------------------------------------ */
 
+export const accountInventory = pgTable(
+  "account_inventory",
+  {
+    id: serial("id").primaryKey(),
+    productId: integer("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    encryptedPassword: text("encrypted_password").notNull(),
+    encryptionIv: text("encryption_iv").notNull(),
+    keyVersion: integer("key_version").notNull().default(1),
+    maxSlots: integer("max_slots").notNull().default(5),
+    usedSlots: integer("used_slots").notNull().default(0),
+    status: text("status").notNull().default("ACTIVE"), // ACTIVE, INACTIVE, FULL
+    notes: text("notes"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("inventory_product_idx").on(t.productId),
+    index("inventory_status_idx").on(t.status),
+  ],
+);
+
 export const subscriptions = pgTable(
   "subscriptions",
   {
@@ -409,6 +433,8 @@ export const subscriptions = pgTable(
     orderId: integer("order_id")
       .notNull()
       .references(() => orders.id, { onDelete: "restrict" }),
+    inventoryAccountId: integer("inventory_account_id").references(() => accountInventory.id, { onDelete: "set null" }),
+    allocatedProfileName: text("allocated_profile_name"),
     startDate: date("start_date").notNull(),
     expiryDate: date("expiry_date").notNull(),
     status: subscriptionStatusEnum("status").notNull().default("ACTIVE"),
@@ -671,3 +697,5 @@ export type FaqItem = typeof faqItems.$inferSelect;
 export type PaymentMethod = typeof paymentMethods.$inferSelect;
 export type Review = typeof reviews.$inferSelect;
 export type AuditLog = typeof auditLogs.$inferSelect;
+export type AccountInventory = typeof accountInventory.$inferSelect;
+export type NewAccountInventory = typeof accountInventory.$inferInsert;

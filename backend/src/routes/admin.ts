@@ -12,7 +12,9 @@ import {
   adminActions,
   auditLogs,
   users,
+  accountInventory,
 } from "../db/schema.js";
+import { encryptPayload, decryptPayload } from "../lib/crypto.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { rateLimit } from "../rate-limit/index.js";
 import { adminDashboardStats, listAdminUsers, updateUserStatus, moderateReview, listReviewsAdmin } from "../services/admin.js";
@@ -151,6 +153,85 @@ adminRoutes.post("/subscriptions/:id/credential", rateLimit("admin-write", 10, 6
     publicMeta: body.publicMeta,
     notes: body.notes,
   });
+  return c.json({ ok: true });
+});
+
+const inventoryAddBody = z.object({
+  productId: z.number().int().positive(),
+  email: z.string().trim().email(),
+  password: z.string().trim().min(1).max(200),
+  maxSlots: z.number().int().positive().default(5),
+  notes: z.string().max(1000).optional(),
+});
+
+adminRoutes.get("/inventory", async (c) => {
+  const items = await db.select().from(accountInventory).orderBy(desc(accountInventory.createdAt));
+  const decryptedItems = items.map((item) => {
+    let password = "";
+    try {
+      password = decryptPayload(item.encryptedPassword, item.encryptionIv, item.keyVersion);
+    } catch {
+      password = "Decryption Failed";
+    }
+    return {
+      ...item,
+      password,
+    };
+  });
+  return c.json({ items: decryptedItems });
+});
+
+adminRoutes.post("/inventory", rateLimit("admin-write", 10, 60_000), async (c) => {
+  const admin = c.get("user");
+  const body = parseBody(await c.req.json().catch(() => null), inventoryAddBody);
+  const { ciphertext, iv, keyVersion } = encryptPayload(body.password);
+
+  const inserted = await db
+    .insert(accountInventory)
+    .values({
+      productId: body.productId,
+      email: body.email,
+      encryptedPassword: ciphertext,
+      encryptionIv: iv,
+      keyVersion,
+      maxSlots: body.maxSlots,
+      usedSlots: 0,
+      notes: body.notes,
+    })
+    .returning();
+
+  void logAudit({
+    actorId: admin.id,
+    actorRole: "ADMIN",
+    action: "inventory.account.added",
+    targetType: "inventory",
+    targetId: String(inserted[0]?.id),
+    meta: { email: body.email },
+  });
+
+  return c.json({ ok: true, item: inserted[0] });
+});
+
+adminRoutes.delete("/inventory/:id", rateLimit("admin-write", 10, 60_000), async (c) => {
+  const admin = c.get("user");
+  const id = Number(c.req.param("id"));
+
+  const deleted = await db
+    .delete(accountInventory)
+    .where(eq(accountInventory.id, id))
+    .returning();
+
+  if (deleted[0]) {
+    void logAudit({
+      actorId: admin.id,
+      actorRole: "ADMIN",
+      action: "inventory.account.deleted",
+      targetType: "inventory",
+      targetId: String(id),
+      meta: { email: deleted[0].email },
+    });
+  }
+
   return c.json({ ok: true });
 });
 
