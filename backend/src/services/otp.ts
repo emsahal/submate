@@ -80,27 +80,32 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
 
   let targetEmail: string | undefined;
   if (cred) {
-    try {
-      const decrypted = decryptPayload(cred.encryptedPayload, cred.encryptionIv, cred.keyVersion);
-      if (decrypted.includes("{") && decrypted.includes("}")) {
-        const parsed = JSON.parse(decrypted) as Record<string, string>;
-        targetEmail = parsed.email || parsed.username || parsed.login;
-      } else if (decrypted.includes(":")) {
-        targetEmail = decrypted.split(":")[0];
-      } else {
-        targetEmail = decrypted;
-      }
-      if (targetEmail) {
-        // Extract exact email if there are trailing details
-        const emailMatch = targetEmail.match(/[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}/);
-        if (emailMatch) {
-          targetEmail = emailMatch[0];
+    if (cred.publicMeta && typeof cred.publicMeta === "object" && "assignedEmail" in cred.publicMeta) {
+      targetEmail = (cred.publicMeta as { assignedEmail?: string }).assignedEmail;
+    }
+    if (!targetEmail) {
+      try {
+        const decrypted = decryptPayload(cred.encryptedPayload, cred.encryptionIv, cred.keyVersion);
+        if (decrypted.includes("{") && decrypted.includes("}")) {
+          const parsed = JSON.parse(decrypted) as Record<string, string>;
+          targetEmail = parsed.email || parsed.username || parsed.login;
+        } else if (decrypted.includes(":")) {
+          targetEmail = decrypted.split(":")[0];
         } else {
-          targetEmail = targetEmail.trim();
+          targetEmail = decrypted;
         }
+        if (targetEmail) {
+          // Extract exact email if there are trailing details
+          const emailMatch = targetEmail.match(/[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}/);
+          if (emailMatch) {
+            targetEmail = emailMatch[0];
+          } else {
+            targetEmail = targetEmail.trim();
+          }
+        }
+      } catch (err) {
+        console.error("Failed to decrypt access credentials for OTP filtering:", err);
       }
-    } catch (err) {
-      console.error("Failed to decrypt access credentials for OTP filtering:", err);
     }
   }
 

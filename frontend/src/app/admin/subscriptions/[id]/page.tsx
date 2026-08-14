@@ -31,11 +31,15 @@ export default function AdminSubscriptionDetailPage() {
   const [credType, setCredType] = React.useState("PROVIDER_LINK");
   const [payload, setPayload] = React.useState("");
   const [notes, setNotes] = React.useState("");
+  const [assignedEmail, setAssignedEmail] = React.useState("");
 
   async function load() {
     try {
       const d = await get<Detail>(`/admin/subscriptions/${params.id}`);
       setDetail(d);
+      if (d.subscription.accessMeta?.assignedEmail) {
+        setAssignedEmail(d.subscription.accessMeta.assignedEmail);
+      }
       setError(null);
     } catch (err) {
       setError(formatError(err));
@@ -65,7 +69,16 @@ export default function AdminSubscriptionDetailPage() {
     if (!payload.trim()) return;
     setBusy("cred");
     try {
-      await post(`/admin/subscriptions/${params.id}/credential`, { type: credType as never, payload: payload.trim(), notes: notes || undefined });
+      const publicMeta: Record<string, string> = {};
+      if (assignedEmail.trim()) {
+        publicMeta.assignedEmail = assignedEmail.trim();
+      }
+      await post(`/admin/subscriptions/${params.id}/credential`, {
+        type: credType as never,
+        payload: payload.trim(),
+        notes: notes || undefined,
+        publicMeta: Object.keys(publicMeta).length > 0 ? publicMeta : undefined,
+      });
       toast.success("Access credential saved (encrypted).");
       setPayload("");
       setNotes("");
@@ -175,6 +188,10 @@ export default function AdminSubscriptionDetailPage() {
                     <SelectItem value="GENERIC">Generic</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="assignedEmail">Assigned Email / Secondary Gmail (for OTP routing)</Label>
+                <Input id="assignedEmail" value={assignedEmail} onChange={(e) => setAssignedEmail(e.target.value)} placeholder="netflix-secondary-account@gmail.com" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="payload">Secret payload</Label>
