@@ -1,6 +1,7 @@
 import { and, count, desc, eq, gt, gte } from "drizzle-orm";
 import { db } from "../db/index.js";
-import { otpRequests, subscriptions } from "../db/schema.js";
+import { otpRequests, subscriptions, accessCredentials } from "../db/schema.js";
+import { decryptPayload } from "../lib/crypto.js";
 import { ApiError } from "../lib/errors.js";
 import { logAudit } from "../lib/audit.js";
 import { fetchLatestNetflixOtpCode, getGmailConnection } from "./gmail.js";
@@ -73,7 +74,37 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
     );
   }
 
-  const otp = await fetchLatestNetflixOtpCode();
+  const cred = await db.query.accessCredentials.findFirst({
+    where: (t, { eq: e }) => e(t.subscriptionId, sub.id),
+  });
+
+  let targetEmail: string | undefined;
+  if (cred) {
+    try {
+      const decrypted = decryptPayload(cred.encryptedPayload, cred.encryptionIv, cred.keyVersion);
+      if (decrypted.includes("{") && decrypted.includes("}")) {
+        const parsed = JSON.parse(decrypted) as Record<string, string>;
+        targetEmail = parsed.email || parsed.username || parsed.login;
+      } else if (decrypted.includes(":")) {
+        targetEmail = decrypted.split(":")[0];
+      } else {
+        targetEmail = decrypted;
+      }
+      if (targetEmail) {
+        // Extract exact email if there are trailing details
+        const emailMatch = targetEmail.match(/[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}/);
+        if (emailMatch) {
+          targetEmail = emailMatch[0];
+        } else {
+          targetEmail = targetEmail.trim();
+        }
+      }
+    } catch (err) {
+      console.error("Failed to decrypt access credentials for OTP filtering:", err);
+    }
+  }
+
+  const otp = await fetchLatestNetflixOtpCode(targetEmail);
   if (!otp) {
     throw new ApiError(
       404,
@@ -101,7 +132,7 @@ export async function requestOtpForSubscription(input: { userId: string; subscri
       break;
     } catch (err) {
       if (attempt === 0 && err && typeof err === "object" && "code" in err && (err as { code: string }).code === "23505") {
-        const newer = await fetchLatestNetflixOtpCode();
+        const newer = await fetchLatestNetflixOtpCode(targetEmail);
         if (newer && newer.messageId !== otp.messageId) {
           otp.code = newer.code;
           otp.messageId = newer.messageId;

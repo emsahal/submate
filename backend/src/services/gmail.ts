@@ -212,10 +212,14 @@ function extractCode(subject: string, body: string): string | null {
  * Find the most recent Netflix verification email and parse the 6-digit code.
  * The code commonly appears in the subject line, with a body fallback.
  */
-export async function fetchLatestNetflixOtpCode(): Promise<NetflixOtpMessage | null> {
+export async function fetchLatestNetflixOtpCode(targetEmail?: string): Promise<NetflixOtpMessage | null> {
   // Broad query: any Netflix-related sender domain or common OTP subject keywords,
   // extended to 3-day window to tolerate slight delays.
-  const query = 'newer_than:3d (from:@netflix.com OR subject:"verification code" OR subject:"sign-in code" OR subject:"your code")';
+  let query = 'newer_than:3d (from:@netflix.com OR subject:"verification code" OR subject:"sign-in code" OR subject:"your code")';
+  if (targetEmail) {
+    const cleanEmail = targetEmail.trim().replace(/["']/g, "");
+    query = `"${cleanEmail}" ${query}`;
+  }
   const list = await gmailFetch(
     `/messages?q=${encodeURIComponent(query)}&maxResults=20`,
   );
