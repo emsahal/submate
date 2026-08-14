@@ -106,91 +106,105 @@ export async function analyzePaymentScreenshot(input: AnalyzeInput): Promise<AIV
   }
 
   const dataUrl = `data:${input.mimeType};base64,${input.imageBase64}`;
+  const maxAttempts = 5;
+  let lastError: unknown = null;
 
-  const res = await fetch(`${config.nvidiaBaseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${config.nvidiaApiKey}`,
-    },
-    body: JSON.stringify({
-      model: config.nvidiaVisionModel,
-      max_tokens: 1600,
-      temperature: 0.1,
-      messages: [
-        {
-          role: "user",
-          content: [
-            { type: "text", text: buildPrompt(input) },
-            { type: "image_url", image_url: { url: dataUrl } },
-          ],
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const res = await fetch(`${config.nvidiaBaseUrl}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${config.nvidiaApiKey}`,
         },
-      ],
-    }),
-  });
+        body: JSON.stringify({
+          model: config.nvidiaVisionModel,
+          max_tokens: 1600,
+          temperature: 0.1,
+          messages: [
+            {
+              role: "user",
+              content: [
+                { type: "text", text: buildPrompt(input) },
+                { type: "image_url", image_url: { url: dataUrl } },
+              ],
+            },
+          ],
+        }),
+      });
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`NVIDIA API responded ${res.status}: ${body.slice(0, 300)}`);
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        throw new Error(`NVIDIA API responded ${res.status}: ${body.slice(0, 300)}`);
+      }
+
+      const json = (await res.json()) as NvidiaChatCompletion;
+      const content = json.choices?.[0]?.message?.content;
+      if (!content) throw new Error("NVIDIA API returned an empty response.");
+
+      const parsed = extractJson(content) as unknown as {
+        amountDetected?: number | string | null;
+        currencyDetected?: string | null;
+        transactionId?: string | null;
+        paymentDate?: string | null;
+        receiver?: string | null;
+        sender?: string | null;
+        paymentStatusMessage?: string | null;
+        issuesDetected?: string[];
+        missingInformation?: string[];
+        readability?: string | null;
+        confidence?: number | null;
+        assessment?: string;
+        summary?: string;
+      };
+
+      const issues = parsed.issuesDetected ?? [];
+      const missing = parsed.missingInformation ?? [];
+      if (parsed.amountDetected != null && Number(parsed.amountDetected) !== input.expectedAmount) {
+        issues.push(
+          `Amount mismatch: expected ${input.currency} ${input.expectedAmount}, detected ${parsed.amountDetected}.`,
+        );
+      }
+      if (!parsed.transactionId) {
+        missing.push("transactionId");
+      }
+      if (!parsed.amountDetected) {
+        missing.push("amountDetected");
+      }
+
+      const verdict = normalizeVerdict({
+        assessment: parsed.assessment,
+        readability: parsed.readability ?? null,
+        confidence: parsed.confidence != null ? Number(parsed.confidence) : null,
+        amountDetected: parsed.amountDetected != null ? Number(parsed.amountDetected) : null,
+        transactionId: parsed.transactionId ?? null,
+      });
+
+      return {
+        status: verdict,
+        amount: parsed.amountDetected != null && !Number.isNaN(Number(parsed.amountDetected))
+          ? Number(parsed.amountDetected)
+          : null,
+        currency: parsed.currencyDetected ?? null,
+        transactionId: parsed.transactionId ?? null,
+        paymentDate: parsed.paymentDate ?? null,
+        receiver: parsed.receiver ?? null,
+        sender: parsed.sender ?? null,
+        paymentStatus: parsed.paymentStatusMessage ?? null,
+        confidence: parsed.confidence != null ? Number(parsed.confidence) : null,
+        issues,
+        missing,
+        readability: parsed.readability ?? null,
+        summary: parsed.summary ?? "",
+      };
+    } catch (error) {
+      lastError = error;
+      if (attempt < maxAttempts) {
+        console.warn(`AI analysis attempt ${attempt} failed: ${error instanceof Error ? error.message : String(error)}. Retrying in 1s...`);
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      }
+    }
   }
 
-  const json = (await res.json()) as NvidiaChatCompletion;
-  const content = json.choices?.[0]?.message?.content;
-  if (!content) throw new Error("NVIDIA API returned an empty response.");
-
-  const parsed = extractJson(content) as unknown as {
-    amountDetected?: number | string | null;
-    currencyDetected?: string | null;
-    transactionId?: string | null;
-    paymentDate?: string | null;
-    receiver?: string | null;
-    sender?: string | null;
-    paymentStatusMessage?: string | null;
-    issuesDetected?: string[];
-    missingInformation?: string[];
-    readability?: string | null;
-    confidence?: number | null;
-    assessment?: string;
-    summary?: string;
-  };
-
-  const issues = parsed.issuesDetected ?? [];
-  const missing = parsed.missingInformation ?? [];
-  if (parsed.amountDetected != null && Number(parsed.amountDetected) !== input.expectedAmount) {
-    issues.push(
-      `Amount mismatch: expected ${input.currency} ${input.expectedAmount}, detected ${parsed.amountDetected}.`,
-    );
-  }
-  if (!parsed.transactionId) {
-    missing.push("transactionId");
-  }
-  if (!parsed.amountDetected) {
-    missing.push("amountDetected");
-  }
-
-  const verdict = normalizeVerdict({
-    assessment: parsed.assessment,
-    readability: parsed.readability ?? null,
-    confidence: parsed.confidence != null ? Number(parsed.confidence) : null,
-    amountDetected: parsed.amountDetected != null ? Number(parsed.amountDetected) : null,
-    transactionId: parsed.transactionId ?? null,
-  });
-
-  return {
-    status: verdict,
-    amount: parsed.amountDetected != null && !Number.isNaN(Number(parsed.amountDetected))
-      ? Number(parsed.amountDetected)
-      : null,
-    currency: parsed.currencyDetected ?? null,
-    transactionId: parsed.transactionId ?? null,
-    paymentDate: parsed.paymentDate ?? null,
-    receiver: parsed.receiver ?? null,
-    sender: parsed.sender ?? null,
-    paymentStatus: parsed.paymentStatusMessage ?? null,
-    confidence: parsed.confidence != null ? Number(parsed.confidence) : null,
-    issues,
-    missing,
-    readability: parsed.readability ?? null,
-    summary: parsed.summary ?? "",
-  };
+  throw lastError || new Error(`AI analysis failed after ${maxAttempts} attempts`);
 }
