@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, BadgeCheck, Star } from "lucide-react";
 import type { PublicProduct } from "@/types/shared";
 import { Badge } from "@/components/ui/badge";
@@ -17,23 +18,21 @@ export function ProductCard({ product }: { product: PublicProduct }) {
         {/* Cover */}
         <div className="relative flex h-36 shrink-0 items-center justify-center overflow-hidden border-b border-border bg-muted/50">
           {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={product.imageUrl}
               alt={product.name}
-              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             />
           ) : product.logoUrl ? (
             product.logoUrlDark ? (
               <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.logoUrl} alt={product.name} className="h-14 w-14 object-contain dark:hidden" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.logoUrlDark} alt={`${product.name} (white)`} className="hidden h-14 w-14 object-contain dark:block" />
+                <Image src={product.logoUrl} alt={product.name} width={56} height={56} className="h-14 w-14 object-contain dark:hidden" />
+                <Image src={product.logoUrlDark} alt={`${product.name} (white)`} width={56} height={56} className="hidden h-14 w-14 object-contain dark:block" />
               </>
             ) : (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={product.logoUrl} alt={product.name} className="h-14 w-14 object-contain" />
+              <Image src={product.logoUrl} alt={product.name} width={56} height={56} className="h-14 w-14 object-contain" />
             )
           ) : (
             <BrandLogo slug={product.slug} size={56} />
@@ -56,8 +55,7 @@ export function ProductCard({ product }: { product: PublicProduct }) {
             </div>
             {product.logoUrl ? (
               <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.logoUrl} alt={product.name} className="h-full w-full object-contain p-1" />
+                <Image src={product.logoUrl} alt={product.name} width={40} height={40} className="h-full w-full object-contain p-1" />
               </div>
             ) : null}
           </div>

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Star, Verified } from "lucide-react";
 import { fetchProduct } from "@/lib/site-data";
+import { siteConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlanPicker } from "@/components/plan-picker";
@@ -38,24 +40,35 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const { product, reviews, reviewSummary } = data;
 
+  const productUrl = `${siteConfig.url}/subscriptions/${product.slug}`;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
     description: product.shortDescription || product.description,
     image: product.imageUrl ?? product.logoUrl ?? undefined,
-    brand: product.providerName ? { "@type": "Brand", name: product.providerName } : undefined,
+    url: productUrl,
+    brand: product.providerName
+      ? { "@type": "Brand", name: product.providerName }
+      : { "@type": "Brand", name: product.name },
     offers: {
       "@type": "AggregateOffer",
       priceCurrency: "PKR",
       lowPrice: product.minPrice,
       highPrice: product.maxPrice,
       offerCount: product.plans.length,
+      url: productUrl,
+      availability: product.plans.length > 0
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
       offers: product.plans.map((plan) => ({
         "@type": "Offer",
         name: plan.name,
         price: plan.priceLocal,
         priceCurrency: plan.currency || "PKR",
+        url: productUrl,
+        availability: "https://schema.org/InStock",
       })),
     },
     aggregateRating:
@@ -84,14 +97,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {product.logoUrl ? (
                 product.logoUrlDark ? (
                   <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={product.logoUrl} alt={product.name} className="h-full w-full object-contain p-2 dark:hidden" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={product.logoUrlDark} alt={`${product.name} (white)`} className="hidden h-full w-full object-contain p-2 dark:block" />
+                    <Image src={product.logoUrl} alt={product.name} width={80} height={80} className="h-full w-full object-contain p-2 dark:hidden" />
+                    <Image src={product.logoUrlDark} alt={`${product.name} (white)`} width={80} height={80} className="hidden h-full w-full object-contain p-2 dark:block" />
                   </>
                 ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={product.logoUrl} alt={product.name} className="h-full w-full object-contain p-2" />
+                  <Image src={product.logoUrl} alt={product.name} width={80} height={80} className="h-full w-full object-contain p-2" />
                 )
               ) : (
                 <BrandLogo slug={product.slug} size={48} />

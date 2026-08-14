@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, CircleCheck } from "lucide-react";
@@ -16,15 +17,12 @@ function ServiceIcon({ product }: { product: PublicProduct }) {
     if (product.logoUrlDark) {
       return (
         <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={product.logoUrl} alt="" className="h-6 w-6 object-contain dark:hidden" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={product.logoUrlDark} alt="" className="hidden h-6 w-6 object-contain dark:block" />
+          <Image src={product.logoUrl} alt="" width={24} height={24} className="h-6 w-6 object-contain dark:hidden" />
+          <Image src={product.logoUrlDark} alt="" width={24} height={24} className="hidden h-6 w-6 object-contain dark:block" />
         </>
       );
     }
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={product.logoUrl} alt="" className="h-6 w-6 object-contain" />;
+    return <Image src={product.logoUrl} alt="" width={24} height={24} className="h-6 w-6 object-contain" />;
   }
   return <BrandLogo slug={product.slug} size={24} className="h-6 w-6" />;
 }

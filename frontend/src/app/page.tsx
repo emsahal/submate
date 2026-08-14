@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -51,6 +53,11 @@ import { JazzcashIcon } from "@/components/icons/jazzcash";
 import { EasypaisaIcon } from "@/components/icons/easypaisa";
 import { NayapayIcon } from "@/components/icons/nayapay";
 import { SadapayIcon } from "@/components/icons/sadapay";
+
+export const metadata: Metadata = {
+  title: "SubMate — Digital Subscriptions Pakistan",
+  description: "SubMate is Pakistan's trusted digital subscription marketplace. Buy Netflix, Spotify, Canva Pro, ChatGPT Premium and other digital subscriptions in Pakistan. Pay in PKR with JazzCash, Easypaisa, or bank transfer.",
+};
 
 async function getFeatured(): Promise<{ items: PublicProduct[]; total: number }> {
   try {
@@ -222,15 +229,12 @@ export default async function HomePage() {
             ? p.logoUrlDark
               ? (
                 <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.logoUrl} alt="" className="h-6 w-6 object-contain dark:hidden" />
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={p.logoUrlDark} alt="" className="hidden h-6 w-6 object-contain dark:block" />
+                  <Image src={p.logoUrl} alt="" width={24} height={24} className="h-6 w-6 object-contain dark:hidden" />
+                  <Image src={p.logoUrlDark} alt="" width={24} height={24} className="hidden h-6 w-6 object-contain dark:block" />
                 </>
               )
               : (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.logoUrl} alt="" className="h-6 w-6 object-contain" />
+                <Image src={p.logoUrl} alt="" width={24} height={24} className="h-6 w-6 object-contain" />
               )
             : (
               <BrandLogo slug={p.slug} size={24} className="h-6 w-6" />
