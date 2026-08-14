@@ -51,8 +51,8 @@ function renderHtml(opts: { storeName: string; title: string; body: string; link
           <!-- Header -->
           <tr>
             <td style="padding-bottom:24px;border-bottom:1px solid #eaeaea;">
-              <a href="https://submate.tech" style="text-decoration:none;display:inline-block;">
-                <img src="https://submate.tech/logo.png" alt="SubMate" height="32" style="height:32px;display:block;border:0;" />
+              <a href="https://submate.tech" style="text-decoration:none;display:inline-block;font-size:22px;font-weight:800;color:#0f6e58;font-family:-apple-system,BlinkMacSystemFont,sans-serif;letter-spacing:-0.03em;">
+                <span style="color:#111111;">Sub</span>Mate<span style="color:#0f6e58;">.</span>
               </a>
             </td>
           </tr>
