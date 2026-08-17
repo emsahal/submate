@@ -23,12 +23,20 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: backendUrl.protocol.replace(":", "") as "http" | "https",
         hostname: backendUrl.hostname,
         port: backendUrl.port || undefined,
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "br-old-butterfly-ay63bpqx.storage.c-5.us-east-2.aws.neon.tech",
+        port: "",
+        pathname: "/subly-imgs/**",
       },
     ],
   },
