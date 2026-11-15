@@ -104,3 +104,21 @@ export const notificationKinds = [
   "SYSTEM",
   "ADMIN",
 ] as const;
+
+export const maintenanceConfig = {
+  /** Master switch: show announcement banner across the site */
+  showMaintenanceBanner: true,
+  /** Banner title badge */
+  bannerBadge: "Maintenance Notice",
+  /** Message explaining that the website / services are temporarily paused */
+  bannerMessage: "SubMate is currently undergoing system maintenance. Ordering and payments are temporarily unavailable.",
+  /** Optional action button text and link */
+  actionText: "Contact on WhatsApp",
+  actionHref: "https://wa.me/923149466389",
+  /** When true, hides payment method showcases, logos and cards */
+  hidePaymentMethods: true,
+  /** When true, pauses placing orders in the checkout / plan picker */
+  pauseOrders: true,
+  pauseOrdersMessage: "New orders and payments are temporarily paused while our team is performing scheduled maintenance. Please check back shortly or message our WhatsApp support for urgent assistance.",
+};
+

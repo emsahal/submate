@@ -11,6 +11,7 @@ import { useSession, signInWithGoogle } from "@/lib/auth-client";
 import { post } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { maintenanceConfig } from "@/config/site";
 
 const SCREEN_OPTIONS = [1, 2, 3, 4, 5] as const;
 
@@ -33,6 +34,10 @@ export function PlanPicker({ productId, slug, plans }: { productId: number; slug
   const totalPrice = selectedPlan ? selectedPlan.priceLocal * screens : 0;
 
   async function handleBuy() {
+    if (maintenanceConfig.pauseOrders) {
+      toast.error(maintenanceConfig.pauseOrdersMessage);
+      return;
+    }
     if (!selectedId) return;
     if (!session.data) {
       signInWithGoogle(`/subscriptions/${slug}?buy=1`);
@@ -132,17 +137,35 @@ export function PlanPicker({ productId, slug, plans }: { productId: number; slug
         </div>
       ) : null}
 
-      <Button onClick={handleBuy} disabled={submitting || !selectedId} size="lg" className="w-full">
-        {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingCart className="h-4 w-4" />}
-        {session.data
-          ? screens > 1
-            ? `Continue to payment · ${formatPKR(totalPrice)}`
-            : "Continue to payment"
-          : "Sign in to order"}
-      </Button>
-      <p className="text-center text-xs text-muted-foreground">
-        Pay with JazzCash, Easypaisa or bank transfer. Your access is delivered after admin verification.
-      </p>
+      {maintenanceConfig.pauseOrders ? (
+        <div className="space-y-3">
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-xs sm:text-sm text-amber-200">
+            <p className="font-semibold text-amber-300">Orders Temporarily Paused</p>
+            <p className="mt-1 leading-relaxed text-amber-200/90">
+              {maintenanceConfig.pauseOrdersMessage}
+            </p>
+          </div>
+          <Button disabled size="lg" className="w-full cursor-not-allowed opacity-60">
+            Orders Temporarily Paused
+          </Button>
+        </div>
+      ) : (
+        <>
+          <Button onClick={handleBuy} disabled={submitting || !selectedId} size="lg" className="w-full">
+            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShoppingCart className="h-4 w-4" />}
+            {session.data
+              ? screens > 1
+                ? `Continue to payment · ${formatPKR(totalPrice)}`
+                : "Continue to payment"
+              : "Sign in to order"}
+          </Button>
+          {!maintenanceConfig.hidePaymentMethods && (
+            <p className="text-center text-xs text-muted-foreground">
+              Pay with JazzCash, Easypaisa or bank transfer. Your access is delivered after admin verification.
+            </p>
+          )}
+        </>
+      )}
     </div>
   );
 }

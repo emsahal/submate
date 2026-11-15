@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Star, Verified } from "lucide-react";
 import { fetchProduct } from "@/lib/site-data";
-import { siteConfig } from "@/config/site";
+import { siteConfig, maintenanceConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlanPicker } from "@/components/plan-picker";
@@ -172,7 +172,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </Card>
           <div className="card-bubble mt-4 rounded-2xl border border-border p-5 text-sm text-muted-foreground">
             <div className="mb-2 flex flex-wrap gap-2">
-              <Badge variant="outline">PKR payments</Badge>
+              {!maintenanceConfig.hidePaymentMethods && <Badge variant="outline">PKR payments</Badge>}
               <Badge variant="outline">Admin verified</Badge>
               <Badge variant="outline">Encrypted delivery</Badge>
             </div>

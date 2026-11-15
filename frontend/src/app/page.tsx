@@ -35,7 +35,7 @@ import {
 } from "lucide-react";
 import { api } from "@/lib/api";
 import type { PublicCategory, PublicPaymentMethod, PublicProduct } from "@/types/shared";
-import { siteConfig } from "@/config/site";
+import { siteConfig, maintenanceConfig } from "@/config/site";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProductCard, ProductCardSkeleton } from "@/components/product-card";
@@ -283,7 +283,9 @@ export default async function HomePage() {
         <div className="relative z-10 mx-auto w-full max-w-4xl px-6 pb-12 pt-6 text-center sm:pb-16 lg:pb-20 lg:pt-10">
           <Reveal delay={0} immediate>
             <div className="flex justify-center">
-              <Eyebrow>Human-verified local payments</Eyebrow>
+              <Eyebrow>
+                {maintenanceConfig.hidePaymentMethods ? "Human-verified digital subscriptions" : "Human-verified local payments"}
+              </Eyebrow>
             </div>
           </Reveal>
           <h1 className="sr-only mt-5">Digital subscriptions, simplified for Pakistan</h1>
@@ -300,8 +302,9 @@ export default async function HomePage() {
 
           <Reveal delay={250} immediate>
             <p className="lead-lg mx-auto mt-7 max-w-xl text-muted-foreground">
-              Discover eligible plans for streaming, music, productivity and more. Pay with JazzCash, Easypaisa or
-              bank transfer — then get verified by a human and your access lands on your dashboard, fast.
+              {maintenanceConfig.hidePaymentMethods
+                ? "Discover eligible plans for streaming, music, productivity and more. Verified subscriptions delivered directly to your dashboard with dedicated customer support."
+                : "Discover eligible plans for streaming, music, productivity and more. Pay with JazzCash, Easypaisa or bank transfer — then get verified by a human and your access lands on your dashboard, fast."}
             </p>
           </Reveal>
 
@@ -327,11 +330,14 @@ export default async function HomePage() {
           <Reveal delay={450} immediate>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-x-7 gap-y-2.5 text-[15px] text-muted-foreground">
               <span className="inline-flex items-center gap-2">
-                <ShieldCheck className="h-4.5 w-4.5 text-primary" /> Admin-verified payments
+                <ShieldCheck className="h-4.5 w-4.5 text-primary" />
+                {maintenanceConfig.hidePaymentMethods ? "Admin-verified access" : "Admin-verified payments"}
               </span>
-              <span className="inline-flex items-center gap-2">
-                <Banknote className="h-4.5 w-4.5 text-primary" /> Pay in PKR
-              </span>
+              {!maintenanceConfig.hidePaymentMethods && (
+                <span className="inline-flex items-center gap-2">
+                  <Banknote className="h-4.5 w-4.5 text-primary" /> Pay in PKR
+                </span>
+              )}
               <span className="inline-flex items-center gap-2">
                 <Lock className="h-4.5 w-4.5 text-primary" /> Encrypted delivery
               </span>
@@ -385,13 +391,21 @@ export default async function HomePage() {
             <p className="mt-3 text-lg font-semibold tracking-tight">Plans to compare</p>
             <p className="mt-1.5 max-w-xs text-muted-foreground">Verified subscriptions, ready to activate.</p>
           </Reveal>
-          <Reveal delay={120} className="md:px-10">
-            <p className="stat-number">
-              <CountUp value={methods.length} />
-            </p>
-            <p className="mt-3 text-lg font-semibold tracking-tight">Local payment methods</p>
-            <p className="mt-1.5 max-w-xs text-muted-foreground">JazzCash, Easypaisa and bank transfer.</p>
-          </Reveal>
+          {maintenanceConfig.hidePaymentMethods ? (
+            <Reveal delay={120} className="md:px-10">
+              <p className="stat-number">100%</p>
+              <p className="mt-3 text-lg font-semibold tracking-tight">Verified Subscriptions</p>
+              <p className="mt-1.5 max-w-xs text-muted-foreground">Authentic access delivered with direct support.</p>
+            </Reveal>
+          ) : (
+            <Reveal delay={120} className="md:px-10">
+              <p className="stat-number">
+                <CountUp value={methods.length} />
+              </p>
+              <p className="mt-3 text-lg font-semibold tracking-tight">Local payment methods</p>
+              <p className="mt-1.5 max-w-xs text-muted-foreground">JazzCash, Easypaisa and bank transfer.</p>
+            </Reveal>
+          )}
           <Reveal delay={240} className="md:px-10">
             <p className="stat-number text-gradient">PKR</p>
             <p className="mt-3 text-lg font-semibold tracking-tight">Pricing designed for Pakistan</p>
@@ -401,103 +415,105 @@ export default async function HomePage() {
       </section>
 
       {/* ── 3 · Payments — standardized ────────────────────────── */}
-      <section className="section-pad border-b border-border bg-background">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mx-auto mb-12 max-w-2xl text-center">
-            <Reveal>
-              <div className="flex justify-center">
-                <Eyebrow>Local payments</Eyebrow>
-              </div>
-            </Reveal>
-            <BlurHeading
-              text="Pay your way with local payments"
-              className="display-xl mt-5"
-              align="center"
-            />
-            <Reveal delay={200}>
-              <p className="lead mx-auto mt-4 max-w-xl text-muted-foreground">
-                No international credit card? No problem. Fund your subscriptions in rupees via the wallets Pakistan already trusts, with a human confirming every transaction.
-              </p>
-            </Reveal>
-            <Reveal delay={300}>
-              <div className="mt-6 flex flex-wrap justify-center gap-2.5">
-                <Badge variant="secondary" className="gap-1.5">
-                  <CreditCard className="h-3.5 w-3.5" /> No card required
-                </Badge>
-                <Badge variant="secondary" className="gap-1.5">
-                  <Banknote className="h-3.5 w-3.5" /> PKR pricing
-                </Badge>
-                <Badge variant="secondary" className="gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5" /> Manually verified
-                </Badge>
-              </div>
-            </Reveal>
-          </div>
-
-          <div className="mx-auto max-w-3xl space-y-4">
-            {methods.map((m, i) => {
-              const meta = methodMeta[m.type] ?? methodMeta.OTHER;
-              const Icon = meta.icon;
-              return (
-                <Reveal key={m.id ?? m.name} delay={i * 100}>
-                  <div
-                    className={`payment-method-card fill-card card-bubble card-lift group flex items-center gap-5 rounded-2xl border bg-card p-6 ${
-                      i === 0 ? "border-primary/30 shadow-[0_0_0_1px_var(--primary)]" : "border-border"
-                    }`}
-                  >
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-border bg-muted text-primary">
-                      <Icon className="h-6 w-6" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-heading text-lg font-bold tracking-tight">{m.name}</h3>
-                        <Badge variant={i === 0 ? "default" : "secondary"}>{i === 0 ? "Most used" : "Active"}</Badge>
-                      </div>
-                      <p className="mt-1 text-sm text-muted-foreground">{meta.desc}</p>
-                    </div>
-                    <BadgeCheck className="h-5 w-5 shrink-0 text-success" />
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* LogoLoop — payment methods marquee */}
-        <Reveal delay={200}>
-          <div className="mt-20 border-y border-border py-12">
-            <div className="mx-auto mb-9 max-w-2xl text-center">
+      {!maintenanceConfig.hidePaymentMethods && (
+        <section className="section-pad border-b border-border bg-background">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="mx-auto mb-12 max-w-2xl text-center">
               <Reveal>
                 <div className="flex justify-center">
-                  <Eyebrow>Supported Wallets</Eyebrow>
+                  <Eyebrow>Local payments</Eyebrow>
                 </div>
               </Reveal>
               <BlurHeading
-                text="Trusted local payment methods"
+                text="Pay your way with local payments"
                 className="display-xl mt-5"
                 align="center"
               />
-              <Reveal delay={150}>
+              <Reveal delay={200}>
                 <p className="lead mx-auto mt-4 max-w-xl text-muted-foreground">
-                  Send payments securely via JazzCash, Easypaisa, NayaPay or direct bank transfer.
+                  No international credit card? No problem. Fund your subscriptions in rupees via the wallets Pakistan already trusts, with a human confirming every transaction.
                 </p>
               </Reveal>
+              <Reveal delay={300}>
+                <div className="mt-6 flex flex-wrap justify-center gap-2.5">
+                  <Badge variant="secondary" className="gap-1.5">
+                    <CreditCard className="h-3.5 w-3.5" /> No card required
+                  </Badge>
+                  <Badge variant="secondary" className="gap-1.5">
+                    <Banknote className="h-3.5 w-3.5" /> PKR pricing
+                  </Badge>
+                  <Badge variant="secondary" className="gap-1.5">
+                    <ShieldCheck className="h-3.5 w-3.5" /> Manually verified
+                  </Badge>
+                </div>
+              </Reveal>
             </div>
-            <LogoLoop
-              logos={methodLogos}
-              speed={55}
-              direction="left"
-              logoHeight={26}
-              gap={56}
-              hoverSpeed={0}
-              scaleOnHover
-              fadeOut
-              fadeOutColor="var(--background)"
-              ariaLabel="Local payment methods"
-            />
+
+            <div className="mx-auto max-w-3xl space-y-4">
+              {methods.map((m, i) => {
+                const meta = methodMeta[m.type] ?? methodMeta.OTHER;
+                const Icon = meta.icon;
+                return (
+                  <Reveal key={m.id ?? m.name} delay={i * 100}>
+                    <div
+                      className={`payment-method-card fill-card card-bubble card-lift group flex items-center gap-5 rounded-2xl border bg-card p-6 ${
+                        i === 0 ? "border-primary/30 shadow-[0_0_0_1px_var(--primary)]" : "border-border"
+                      }`}
+                    >
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-border bg-muted text-primary">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-heading text-lg font-bold tracking-tight">{m.name}</h3>
+                          <Badge variant={i === 0 ? "default" : "secondary"}>{i === 0 ? "Most used" : "Active"}</Badge>
+                        </div>
+                        <p className="mt-1 text-sm text-muted-foreground">{meta.desc}</p>
+                      </div>
+                      <BadgeCheck className="h-5 w-5 shrink-0 text-success" />
+                    </div>
+                  </Reveal>
+                );
+              })}
+            </div>
           </div>
-        </Reveal>
-      </section>
+
+          {/* LogoLoop — payment methods marquee */}
+          <Reveal delay={200}>
+            <div className="mt-20 border-y border-border py-12">
+              <div className="mx-auto mb-9 max-w-2xl text-center">
+                <Reveal>
+                  <div className="flex justify-center">
+                    <Eyebrow>Supported Wallets</Eyebrow>
+                  </div>
+                </Reveal>
+                <BlurHeading
+                  text="Trusted local payment methods"
+                  className="display-xl mt-5"
+                  align="center"
+                />
+                <Reveal delay={150}>
+                  <p className="lead mx-auto mt-4 max-w-xl text-muted-foreground">
+                    Send payments securely via JazzCash, Easypaisa, NayaPay or direct bank transfer.
+                  </p>
+                </Reveal>
+              </div>
+              <LogoLoop
+                logos={methodLogos}
+                speed={55}
+                direction="left"
+                logoHeight={26}
+                gap={56}
+                hoverSpeed={0}
+                scaleOnHover
+                fadeOut
+                fadeOutColor="var(--background)"
+                ariaLabel="Local payment methods"
+              />
+            </div>
+          </Reveal>
+        </section>
+      )}
 
       {/* ── 4 · Popular subscriptions ────────────────────────── */}
       <section className="section-pad border-y border-border bg-muted/30">
@@ -678,18 +694,22 @@ export default async function HomePage() {
             </div>
           </Reveal>
 
-          {/* Small — local payments */}
+          {/* Small — local payments or verified guarantee */}
           <Reveal delay={100}>
             <div className="card-bubble flex h-full flex-col rounded-2xl border border-border bg-card p-7 card-shadow">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-muted text-primary">
-                <Banknote className="h-5 w-5" />
+                {maintenanceConfig.hidePaymentMethods ? <ShieldCheck className="h-5 w-5" /> : <Banknote className="h-5 w-5" />}
               </div>
-              <h3 className="mt-5 text-xl font-bold tracking-tight">Local payments, PKR prices</h3>
+              <h3 className="mt-5 text-xl font-bold tracking-tight">
+                {maintenanceConfig.hidePaymentMethods ? "Verified & Guaranteed" : "Local payments, PKR prices"}
+              </h3>
               <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
-                JazzCash, Easypaisa and bank transfer — everything priced in rupees, no card required.
+                {maintenanceConfig.hidePaymentMethods
+                  ? "Authentic, secure access to your favourite tools and streaming accounts."
+                  : "JazzCash, Easypaisa and bank transfer — everything priced in rupees, no card required."}
               </p>
               <span className="mt-5 inline-flex w-fit rounded-lg bg-primary/10 px-3 py-1 font-heading text-sm font-bold text-primary">
-                Rs prices
+                {maintenanceConfig.hidePaymentMethods ? "100% Authentic" : "Rs prices"}
               </span>
             </div>
           </Reveal>
