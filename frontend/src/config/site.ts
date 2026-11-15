@@ -106,19 +106,25 @@ export const notificationKinds = [
 ] as const;
 
 export const maintenanceConfig = {
-  /** Master switch: show announcement banner across the site */
-  showMaintenanceBanner: true,
-  /** Banner title badge */
-  bannerBadge: "Maintenance Notice",
-  /** Message explaining that the website / services are temporarily paused */
-  bannerMessage: "SubMate is currently undergoing system maintenance. Ordering and payments are temporarily unavailable.",
-  /** Optional action button text and link */
-  actionText: "Contact on WhatsApp",
-  actionHref: "https://wa.me/923149466389",
-  /** When true, hides payment method showcases, logos and cards */
+  /** Master switch: show big notice across the site */
+  showMaintenanceNotice: true,
+  /** Big notice badge */
+  badge: "SYSTEM NOTICE",
+  /** Big bold title */
+  headline: "WEBSITE CURRENTLY NOT OPERATING — ORDERS & PAYMENTS SUSPENDED",
+  /** Main message */
+  description:
+    "SubMate is currently undergoing critical maintenance and system upgrades. New orders, subscriptions, and payment processing are completely offline.",
+  /** Additional note */
+  subNotice:
+    "Support channels (WhatsApp and Email) are temporarily inactive. Please do not send messages, inquiries, or payment screenshots at this time. Services will resume automatically once updates are complete.",
+  /** When true, completely hides payment methods and pricing options */
   hidePaymentMethods: true,
-  /** When true, pauses placing orders in the checkout / plan picker */
+  /** When true, completely removes WhatsApp, Email links, and the floating chat widget */
+  hideContactChannels: true,
+  /** When true, pauses order creation in plan picker */
   pauseOrders: true,
-  pauseOrdersMessage: "New orders and payments are temporarily paused while our team is performing scheduled maintenance. Please check back shortly or message our WhatsApp support for urgent assistance.",
+  pauseOrdersMessage:
+    "Orders and payments are completely suspended due to scheduled maintenance. Do not attempt to purchase.",
 };
 

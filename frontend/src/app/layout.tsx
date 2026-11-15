@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Manrope } from "next/font/google";
 import { Toaster } from "sonner";
-import { siteConfig } from "@/config/site";
+import { siteConfig, maintenanceConfig } from "@/config/site";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -158,7 +158,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />
           <Toaster richColors position="top-center" />
-          <ChatWidget />
+          {!maintenanceConfig.hideContactChannels && <ChatWidget />}
           <CookieConsent />
         </ThemeProvider>
       </body>

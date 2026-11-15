@@ -1,57 +1,39 @@
 "use client";
 
 import * as React from "react";
-import { AlertTriangle, ArrowRight, MessageCircle, X } from "lucide-react";
+import { AlertOctagon, AlertTriangle } from "lucide-react";
 import { maintenanceConfig } from "@/config/site";
 
 export function AnnouncementBanner() {
-  const [dismissed, setDismissed] = React.useState(false);
-
-  if (!maintenanceConfig.showMaintenanceBanner || dismissed) {
+  if (!maintenanceConfig.showMaintenanceNotice) {
     return null;
   }
 
   return (
     <aside
-      aria-label="Service announcement"
-      className="relative z-50 w-full border-b border-amber-500/30 bg-gradient-to-r from-amber-950/90 via-amber-900/80 to-amber-950/90 px-4 py-2.5 text-amber-100 shadow-sm backdrop-blur"
+      aria-label="Service maintenance notice"
+      className="relative z-50 w-full border-b-2 border-amber-500/50 bg-gradient-to-r from-amber-950 via-amber-900 to-amber-950 px-4 py-4 sm:py-5 text-amber-100 shadow-lg"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 text-xs sm:text-sm">
-        <div className="flex flex-1 items-center gap-2.5 overflow-hidden">
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 ring-1 ring-amber-500/40">
-            <AlertTriangle className="h-3 w-3" />
-          </span>
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="inline-flex items-center rounded-full bg-amber-500/20 px-2 py-0.5 text-[11px] font-semibold text-amber-300 ring-1 ring-inset ring-amber-500/30">
-              {maintenanceConfig.bannerBadge}
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:items-start sm:gap-4 sm:text-left">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400 ring-2 ring-amber-500/40">
+          <AlertOctagon className="h-7 w-7 animate-pulse text-amber-400" />
+        </span>
+        <div className="min-w-0 flex-1 space-y-1.5">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-500/25 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-300 ring-1 ring-inset ring-amber-500/40">
+              <AlertTriangle className="h-3.5 w-3.5" />
+              {maintenanceConfig.badge}
             </span>
-            <span className="font-medium text-amber-100/95">
-              {maintenanceConfig.bannerMessage}
+            <span className="text-sm font-bold text-white sm:text-base tracking-tight">
+              {maintenanceConfig.headline}
             </span>
           </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-3">
-          {maintenanceConfig.actionHref && (
-            <a
-              href={maintenanceConfig.actionHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/20 px-3 py-1 font-medium text-amber-200 ring-1 ring-amber-500/40 transition-colors hover:bg-amber-500/30 hover:text-white"
-            >
-              <MessageCircle className="h-3.5 w-3.5" />
-              <span>{maintenanceConfig.actionText}</span>
-              <ArrowRight className="h-3 w-3" />
-            </a>
-          )}
-          <button
-            type="button"
-            onClick={() => setDismissed(true)}
-            className="rounded p-1 text-amber-300/70 transition-colors hover:bg-amber-500/20 hover:text-amber-100"
-            aria-label="Dismiss banner"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <p className="text-xs sm:text-sm leading-relaxed text-amber-200/95 font-medium">
+            {maintenanceConfig.description}
+          </p>
+          <p className="text-[11px] sm:text-xs text-amber-300/80 leading-relaxed">
+            {maintenanceConfig.subNotice}
+          </p>
         </div>
       </div>
     </aside>
