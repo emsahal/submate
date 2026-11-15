@@ -144,7 +144,7 @@ const websiteJsonLd = {
 };
 
 import { CookieConsent } from "@/components/cookie-consent";
-import { AnnouncementBanner } from "@/components/announcement-banner";
+import { MaintenancePopup } from "@/components/maintenance-popup";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -153,7 +153,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <AnnouncementBanner />
+          <MaintenancePopup />
           <SiteHeader />
           <div className="flex flex-1 flex-col">{children}</div>
           <SiteFooter />

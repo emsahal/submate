@@ -281,34 +281,6 @@ export default async function HomePage() {
         </div>
 
         <div className="relative z-10 mx-auto w-full max-w-4xl px-6 pb-12 pt-6 text-center sm:pb-16 lg:pb-20 lg:pt-10">
-          {maintenanceConfig.showMaintenanceNotice && (
-            <Reveal delay={0} immediate>
-              <div className="mb-8 rounded-2xl border-2 border-amber-500/60 bg-gradient-to-b from-amber-500/20 via-amber-950/40 to-background/90 p-6 text-left shadow-2xl backdrop-blur-md">
-                <div className="flex flex-col sm:flex-row items-start gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/25 text-amber-400 ring-2 ring-amber-500/50">
-                    <ShieldCheck className="h-6 w-6 text-amber-400" />
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-md bg-amber-500/30 px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-amber-300 ring-1 ring-amber-500/50">
-                        {maintenanceConfig.badge}
-                      </span>
-                      <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">
-                        {maintenanceConfig.headline}
-                      </h2>
-                    </div>
-                    <p className="text-sm leading-relaxed text-amber-100 font-medium">
-                      {maintenanceConfig.description}
-                    </p>
-                    <p className="text-xs leading-relaxed text-amber-300/80">
-                      {maintenanceConfig.subNotice}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          )}
-
           <Reveal delay={0} immediate>
             <div className="flex justify-center">
               <Eyebrow>
